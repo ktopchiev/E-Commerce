@@ -11,6 +11,17 @@ function App() {
 			.then(data => setProducts(data));
 	}, [])
 
+	function addProduct() {
+		setProducts(prevState => [...products, {
+			id: prevState.length + 1,
+			name: "product" + (prevState.length + 1),
+			description: 'some description',
+			brand: 'some brand',
+			pictureUrl: 'http://picsum.photos/200',
+			price: 200
+		}])
+	}
+
 	return (
 		<div>
 			<h1 style={{ color: 'red' }}>E-Commerce</h1>
@@ -19,6 +30,7 @@ function App() {
 					(<li key={product.id}>{product.name}</li>)
 				)}
 			</ul>
+			<button onClick={addProduct}>Add Product</button>
 		</div>
 	)
 }
