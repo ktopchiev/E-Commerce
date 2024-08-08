@@ -1,6 +1,4 @@
-import { Button } from "@mui/material";
 import ProductList from "./ProductList";
-import Props from "../interfaces/Props";
 import { useEffect, useState } from "react";
 import { Product } from "../../App/models/product";
 
