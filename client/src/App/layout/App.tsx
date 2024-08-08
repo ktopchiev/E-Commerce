@@ -24,7 +24,7 @@ function App() {
 		<div>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<Header handleDarkMode={handleDarkMode} />
+				<Header darkMode={darkMode} handleDarkMode={handleDarkMode} />
 				<Container>
 					<Catalog />
 				</Container>
