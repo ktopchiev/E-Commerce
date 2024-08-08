@@ -1,4 +1,4 @@
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material"
+import { Typography, Button, Card, CardActions, CardContent, CardMedia } from "@mui/material"
 import { Product } from "../../App/models/product"
 
 interface ProductCardProps {
@@ -8,16 +8,25 @@ interface ProductCardProps {
 function ProductCard({ product }: ProductCardProps) {
 
     return (
-        <ListItem key={product.id}>
-            <ListItemAvatar>
-                <Avatar src={product.pictureUrl}></Avatar>
-            </ListItemAvatar>
-            <ListItemText>
-                <Typography variant="body2">
+        <Card sx={{ maxWidth: 345 }}>
+            <CardMedia
+                sx={{ height: 140 }}
+                image={product.pictureUrl}
+                title="green iguana"
+            />
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
                     {product.name}
                 </Typography>
-            </ListItemText>
-        </ListItem>
+                <Typography variant="body2" color="text.secondary">
+                    {product.description}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <Button size="small">Share</Button>
+                <Button size="small">Learn More</Button>
+            </CardActions>
+        </Card>
     )
 }
 
