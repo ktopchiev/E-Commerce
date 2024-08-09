@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material"
-import Props from "../interfaces/Props"
 import ProductCard from "./ProductCard"
+import Props from "../../App/interfaces/Props"
 
 function ProductList({ products }: Props) {
     return (
