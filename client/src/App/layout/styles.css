@@ -1,3 +1,4 @@
-.app h1 {
-    color: red;
+html {
+    overflow-y: scroll;
+    /* Standard browsers */
 }

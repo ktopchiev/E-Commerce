@@ -1,7 +1,7 @@
-import Catalog from "../../features/catalog/Catalog";
 import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Header from "./Header";
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 function App() {
 
@@ -21,12 +21,12 @@ function App() {
 	}
 
 	return (
-		<div>
+		<div className="App">
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<Header darkMode={darkMode} handleDarkMode={handleDarkMode} />
 				<Container>
-					<Catalog />
+					<Outlet />
 				</Container>
 			</ThemeProvider>
 		</div>
