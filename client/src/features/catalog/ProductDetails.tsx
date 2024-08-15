@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { Product } from "../../App/models/product";
 import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import agent from "../../App/api/agent";
+import NotFound from "../../App/errors/NotFound";
 
 function ProductDetails() {
 
@@ -19,7 +20,7 @@ function ProductDetails() {
 
     if (loading) return <h3>Loading...</h3>
 
-    if (!product) return <h1>Product not found</h1>
+    if (!product) return <NotFound />
 
     return (
         <Grid container spacing={6}>
