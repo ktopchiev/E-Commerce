@@ -35,10 +35,26 @@ namespace API.Controllers
             if (basket == null) return NotFound();
 
             // var mappedBasket = _mapper.Map<BasketDto>(basket);
-
             // return Ok(mappedBasket);
 
-            return Ok();
+            BasketDto result = new BasketDto
+            {
+                Id = basket.Id,
+                BuyerId = basket.BuyerId,
+                Items = basket.Items.Select(item => new BasketItemDto
+                {
+                    ProductId = item.ProductId,
+                    Name = item.Product.Name,
+                    Price = item.Product.Price,
+                    PictureUrl = item.Product.PictureUrl,
+                    Type = item.Product.Type,
+                    Brand = item.Product.Brand,
+                    QuantityInStock = item.Product.QuantityInStock
+
+                }).ToList()
+            };
+
+            return Ok(result);
         }
 
         /// <summary>
