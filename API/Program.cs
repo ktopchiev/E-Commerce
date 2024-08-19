@@ -1,5 +1,4 @@
 using API.Data;
-using API.MappingProfiles;
 using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +21,7 @@ internal class Program
         });
 
         builder.Services.AddCors();
-        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         var app = builder.Build();
 

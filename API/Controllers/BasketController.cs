@@ -10,12 +10,17 @@ namespace API.Controllers
     public class BasketController : BaseApiController
     {
         private readonly StoreContext _context;
-        private readonly IMapper _mapper;
+        // private readonly IMapper _mapper;
 
-        public BasketController(StoreContext context, IMapper mapper)
+        /// <summary>
+        /// Basket Controller constructor
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="mapper">This parameter is optional if the project have AutoMapper installed</param>
+        public BasketController(StoreContext context, IMapper mapper = null)
         {
             _context = context;
-            _mapper = mapper;
+            // _mapper = mapper;
         }
 
         /// <summary>
@@ -29,9 +34,11 @@ namespace API.Controllers
 
             if (basket == null) return NotFound();
 
-            var mappedBasket = _mapper.Map<BasketDto>(basket);
+            // var mappedBasket = _mapper.Map<BasketDto>(basket);
 
-            return Ok(mappedBasket);
+            // return Ok(mappedBasket);
+
+            return Ok();
         }
 
         /// <summary>
@@ -74,6 +81,8 @@ namespace API.Controllers
             var item = basket.Items.FirstOrDefault(item => item.Id == productId);
             if (item != null && item.Quantity >= quantity) basket.RemoveItem(productId, quantity);
             //save changes
+            await _context.SaveChangesAsync();
+
             return Ok();
         }
 

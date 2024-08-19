@@ -1,14 +1,12 @@
-using API.DTOs;
-using API.Entities;
-using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.MappingProfiles
 {
-    public class BasketProfile : Profile
+    public class BasketProfile //:Profile
     {
-        public BasketProfile()
-        {
-            CreateMap<Basket, BasketDto>().ForMember(x => x.Items, i => i.MapFrom(m => m.Items));
-        }
+        //TODO: add the profile when activate AutoMapper
     }
 }
