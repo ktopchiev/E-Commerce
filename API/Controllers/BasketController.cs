@@ -49,7 +49,7 @@ namespace API.Controllers
                     PictureUrl = item.Product.PictureUrl,
                     Type = item.Product.Type,
                     Brand = item.Product.Brand,
-                    QuantityInStock = item.Product.QuantityInStock
+                    Quantity = item.Quantity
 
                 }).ToList()
             };
@@ -95,7 +95,12 @@ namespace API.Controllers
 
             //remove item or reduce quantity
             var item = basket.Items.FirstOrDefault(item => item.Id == productId);
-            if (item != null && item.Quantity >= quantity) basket.RemoveItem(productId, quantity);
+
+            if (item != null && item.Quantity >= quantity)
+            {
+                basket.RemoveItem(productId, quantity);
+            }
+
             //save changes
             await _context.SaveChangesAsync();
 
