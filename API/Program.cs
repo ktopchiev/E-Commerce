@@ -36,7 +36,7 @@ internal class Program
 
         app.UseCors(opt =>
         {
-            opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+            opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
         });
 
         app.UseAuthorization();
