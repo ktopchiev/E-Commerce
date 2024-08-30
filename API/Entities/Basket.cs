@@ -19,7 +19,7 @@ namespace API.Entities
         /// <param name="quantity">Quantity of added product (int)</param>
         public void AddItem(Product product, int quantity)
         {
-            if (Items.All(item => item.Id != product.Id))
+            if (Items.All(item => item.ProductId != product.Id))
             {
                 Items.Add(new BasketItem
                 {
@@ -28,7 +28,7 @@ namespace API.Entities
                 });
             }
 
-            var existingItem = Items.FirstOrDefault(item => item.Id == product.Id);
+            var existingItem = Items.FirstOrDefault(item => item.ProductId == product.Id);
             if (existingItem != null) existingItem.Quantity += quantity;
         }
 

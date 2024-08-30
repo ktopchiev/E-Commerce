@@ -70,7 +70,7 @@ function Header({ darkMode, handleDarkMode }: Props) {
                 </Box>
 
                 <Box sx={{ display: 'flex' }}>
-                    <IconButton sx={{ color: 'inherit' }}>
+                    <IconButton component={NavLink} to={'basket'} sx={{ color: 'inherit' }}>
                         <Badge badgeContent={4} color="error">
                             <ShoppingCartOutlined />
                         </Badge>

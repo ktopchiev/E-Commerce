@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LoadingButton } from '@mui/lab';
 import agent from "../../App/api/agent";
+import { AddShoppingCart, VisibilityOutlined } from "@mui/icons-material";
 
 interface ProductCardProps {
     product: Product;
@@ -51,13 +52,13 @@ function ProductCard({ product }: ProductCardProps) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <LoadingButton loading={loading} onClick={() => handleAddToCart(product.id)} size="small">Add to Card</LoadingButton>
+                <LoadingButton loading={loading} onClick={() => handleAddToCart(product.id)} size="small"><AddShoppingCart /></LoadingButton>
                 <Button
                     component={Link}
                     to={`${product.id}`}
                     size="small"
                 >
-                    View
+                    <VisibilityOutlined />
                 </Button>
             </CardActions>
         </Card>
