@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import agent from "../../App/api/agent";
 import LoadingComponent from "../../App/layout/LoadingComponent";
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography } from "@mui/material";
 import { Add, Delete, Remove } from "@mui/icons-material";
 import { Basket } from "../../App/models/basket";
 import { LoadingButton } from "@mui/lab";
@@ -19,7 +19,7 @@ function BasketPage() {
             .then(basket => setBasket(basket))
             .catch(err => console.log(err))
             .finally(() => setStatus({ loading: false, name: '' }));
-    }, [setBasket])
+    }, [])
 
     //TODO: Fix the error response when adding item
     function handleAddItem(productId: number, name: string) {
@@ -38,7 +38,9 @@ function BasketPage() {
             .finally(() => setStatus({ loading: false, name: '' }));
     }
 
-    if (status.loading && status.name == '') return <LoadingComponent message="Loading basket..."></LoadingComponent>
+    if (status.loading && status.name == '') return <LoadingComponent message="Loading basket..." />
+
+    if (!basket) return <Typography variant='h3'>Your basket is empty</Typography>
 
     return (
         <TableContainer component={Paper}>
@@ -55,7 +57,7 @@ function BasketPage() {
                 <TableBody>
                     {basket?.items.map(item => (
                         <TableRow
-                            key={item.name}
+                            key={item.productId}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
@@ -73,7 +75,9 @@ function BasketPage() {
                                         <Remove />
                                     </LoadingButton>
                                     {item.quantity}
-                                    <LoadingButton loading={status.loading && status.name === 'add' + item.productId} onClick={() => handleAddItem(item.productId, 'add' + item.productId)}>
+                                    <LoadingButton
+                                        loading={status.loading && status.name === 'add' + item.productId}
+                                        onClick={() => handleAddItem(item.productId, 'add' + item.productId)}>
                                         <Add />
                                     </LoadingButton>
                                 </Box>

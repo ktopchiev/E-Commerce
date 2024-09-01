@@ -1,6 +1,6 @@
 import { DarkModeOutlined, LightMode, ShoppingCartOutlined } from "@mui/icons-material";
 import { AppBar, Badge, Box, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material"
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const midLinks = [
     { title: 'catalog', path: '/catalog' },
@@ -70,7 +70,7 @@ function Header({ darkMode, handleDarkMode }: Props) {
                 </Box>
 
                 <Box sx={{ display: 'flex' }}>
-                    <IconButton component={NavLink} to={'basket'} sx={{ color: 'inherit' }}>
+                    <IconButton component={Link} to={'/basket'} sx={{ color: 'inherit' }}>
                         <Badge badgeContent={4} color="error">
                             <ShoppingCartOutlined />
                         </Badge>
