@@ -3,7 +3,7 @@ import { useStoreContext } from "../../App/context/StoreContext";
 
 export default function BasketSummary() {
     const { basket } = useStoreContext();
-    const subtotal = basket?.items.reduce((sum, item) => sum + (item.price * item.quantity) / 100, 0) || 0;
+    const subtotal = basket?.items.reduce((sum, item) => sum + (item.price * item.quantity) / 100, 0) ?? 0;
     const deliveryFee = subtotal > 100 ? 0 : 5;
 
     return (
