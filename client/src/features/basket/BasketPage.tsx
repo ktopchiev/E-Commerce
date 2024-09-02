@@ -1,25 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import agent from "../../App/api/agent";
-import LoadingComponent from "../../App/layout/LoadingComponent";
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography } from "@mui/material";
 import { Add, Delete, Remove } from "@mui/icons-material";
-import { Basket } from "../../App/models/basket";
 import { LoadingButton } from "@mui/lab";
+import { useStoreContext } from "../../App/context/StoreContext";
 
 function BasketPage() {
+
+    const { basket, setBasket } = useStoreContext();
+
     const [status, setStatus] = useState({
         loading: false,
         name: '',
     });
-    const [basket, setBasket] = useState<Basket | null>(null);
 
-    useEffect(() => {
-        setStatus({ loading: true, name: '' });
-        agent.Basket.get()
-            .then(basket => setBasket(basket))
-            .catch(err => console.log(err))
-            .finally(() => setStatus({ loading: false, name: '' }));
-    }, [])
+    if (!basket) return <Typography variant='h3'>Your basket is empty</Typography>
 
     //TODO: Fix the error response when adding item
     function handleAddItem(productId: number, name: string) {
@@ -30,17 +25,13 @@ function BasketPage() {
             .finally(() => setStatus({ loading: false, name: '' }));
     }
 
-    function handleRemoveItem(productId: number, quantity: number, name: string) {
+    function handleRemoveItem(productId: number, quantity = 1, name: string) {
         setStatus({ loading: true, name });
         agent.Basket.removeItem(productId, quantity)
             .then(basket => setBasket(basket))
             .catch(err => console.log(err))
             .finally(() => setStatus({ loading: false, name: '' }));
     }
-
-    if (status.loading && status.name == '') return <LoadingComponent message="Loading basket..." />
-
-    if (!basket) return <Typography variant='h3'>Your basket is empty</Typography>
 
     return (
         <TableContainer component={Paper}>
@@ -63,7 +54,7 @@ function BasketPage() {
                             <TableCell component="th" scope="row">
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <img src={item.pictureUrl} style={{ height: 50, marginRight: 20 }} />
-                                    {item.name}
+                                    <span>{item.name}</span>
                                 </Box>
                             </TableCell>
                             <TableCell align="right">${(item.price / 100).toFixed(2)}</TableCell>
