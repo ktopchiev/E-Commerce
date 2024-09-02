@@ -67,7 +67,7 @@ namespace API.Controllers
             //save changes
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (result) return StatusCode(201);
+            if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));
 
             return BadRequest(new ProblemDetails { Title = "Problem saving item to basket" });
         }

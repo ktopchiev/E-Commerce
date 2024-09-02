@@ -16,7 +16,7 @@ function BasketPage() {
 
     if (!basket) return <Typography variant='h3'>Your basket is empty</Typography>
 
-    //TODO: Fix the error response when adding item
+    //TODO: 
     function handleAddItem(productId: number, name: string) {
         setStatus({ loading: true, name });
         agent.Basket.addItem(productId)
