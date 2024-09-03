@@ -1,15 +1,16 @@
 import { useState } from "react";
 import agent from "../../App/api/agent";
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2 } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2, Button } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { Add, Delete, Remove } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { useStoreContext } from "../../App/context/StoreContext";
 import BasketSummary from "./BasketSummary";
+import { Link } from "react-router-dom";
 
 function BasketPage() {
 
-    const { basket, setBasket } = useStoreContext();
+    const { basket, setBasket, removeItem } = useStoreContext();
 
     const [status, setStatus] = useState({
         loading: false,
@@ -29,7 +30,7 @@ function BasketPage() {
     function handleRemoveItem(productId: number, quantity = 1, name: string) {
         setStatus({ loading: true, name });
         agent.Basket.removeItem(productId, quantity)
-            .then(basket => setBasket(basket))
+            .then(() => removeItem(productId, quantity))
             .catch(err => console.log(err))
             .finally(() => setStatus({ loading: false, name: '' }));
     }
@@ -92,6 +93,15 @@ function BasketPage() {
                 <Grid ></Grid>
                 <Grid >
                     <BasketSummary />
+                    <Button
+                        variant="contained"
+                        color="success"
+                        component={Link}
+                        to='/checkout'
+                        fullWidth
+                    >
+                        Checkout
+                    </Button>
                 </Grid>
             </Grid2>
         </>

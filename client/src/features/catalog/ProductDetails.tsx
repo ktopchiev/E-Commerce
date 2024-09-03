@@ -29,11 +29,8 @@ function ProductDetails() {
 
     function handleUpdateQuantity() {
         setSubmitting(true);
-        console.log(quantity);
-        console.log(item?.quantity);
         if (!item || quantity !== item?.quantity) {
             const updatedQuantity = item ? quantity - item?.quantity : quantity;
-            console.log(updatedQuantity);
             agent.Basket.addItem(product?.id, updatedQuantity)
                 .then(basket => setBasket(basket))
                 .catch(error => console.log(error))
