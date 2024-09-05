@@ -4,13 +4,15 @@ import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody
 import Grid from '@mui/material/Grid2';
 import { Add, Delete, Remove } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { useStoreContext } from "../../App/context/StoreContext";
 import BasketSummary from "./BasketSummary";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
+import { removeItem, setBasket } from "./basketSlice";
 
 function BasketPage() {
 
-    const { basket, setBasket, removeItem } = useStoreContext();
+    const { basket } = useAppSelector(state => state.basket);
+    const dispatch = useAppDispatch();
 
     const [status, setStatus] = useState({
         loading: false,
@@ -22,7 +24,7 @@ function BasketPage() {
     function handleAddItem(productId: number, name: string) {
         setStatus({ loading: true, name });
         agent.Basket.addItem(productId)
-            .then(basket => setBasket(basket))
+            .then(basket => dispatch(setBasket(basket)))
             .catch(err => console.log(err))
             .finally(() => setStatus({ loading: false, name: '' }));
     }
@@ -30,7 +32,7 @@ function BasketPage() {
     function handleRemoveItem(productId: number, quantity = 1, name: string) {
         setStatus({ loading: true, name });
         agent.Basket.removeItem(productId, quantity)
-            .then(() => removeItem(productId, quantity))
+            .then(() => dispatch(removeItem({ productId, quantity })))
             .catch(err => console.log(err))
             .finally(() => setStatus({ loading: false, name: '' }));
     }
