@@ -12,17 +12,8 @@ interface ProductCardProps {
 
 function ProductCard({ product }: ProductCardProps) {
 
-    // const [loading, setLoading] = useState(false);
     const { status } = useAppSelector(state => state.basket)
     const dispatch = useAppDispatch();
-
-    /*function handleAddToCart(productId: number) {
-        setLoading(true);
-        agent.Basket.addItem(productId)
-            .then(basket => dispatch(setBasket(basket)))
-            .catch(error => console.log(error))
-            .finally(() => setLoading(false));
-    }*/
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -56,7 +47,7 @@ function ProductCard({ product }: ProductCardProps) {
             </CardContent>
             <CardActions>
                 <LoadingButton
-                    loading={status.includes('pending')}
+                    loading={status.includes('pendingAddItem' + product.id)}
                     onClick={() => dispatch(addItemToBasketAsync({ productId: product.id }))}
                     size="small">
                     <AddShoppingCart />

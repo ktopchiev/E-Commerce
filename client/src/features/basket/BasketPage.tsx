@@ -1,5 +1,3 @@
-import { useState } from "react";
-import agent from "../../App/api/agent";
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2, Button } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { Add, Delete, Remove } from "@mui/icons-material";
@@ -7,35 +5,14 @@ import { LoadingButton } from "@mui/lab";
 import BasketSummary from "./BasketSummary";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
-import { removeItem, setBasket } from "./basketSlice";
+import { addItemToBasketAsync, removeItemFromBasketAsync } from "./basketSlice";
 
 function BasketPage() {
 
-    const { basket } = useAppSelector(state => state.basket);
+    const { basket, status } = useAppSelector(state => state.basket);
     const dispatch = useAppDispatch();
 
-    const [status, setStatus] = useState({
-        loading: false,
-        name: '',
-    });
-
     if (!basket) return <Typography variant='h3'>Your basket is empty</Typography>
-
-    function handleAddItem(productId: number, name: string) {
-        setStatus({ loading: true, name });
-        agent.Basket.addItem(productId)
-            .then(basket => dispatch(setBasket(basket)))
-            .catch(err => console.log(err))
-            .finally(() => setStatus({ loading: false, name: '' }));
-    }
-
-    function handleRemoveItem(productId: number, quantity = 1, name: string) {
-        setStatus({ loading: true, name });
-        agent.Basket.removeItem(productId, quantity)
-            .then(() => dispatch(removeItem({ productId, quantity })))
-            .catch(err => console.log(err))
-            .finally(() => setStatus({ loading: false, name: '' }));
-    }
 
     return (
         <>
@@ -66,14 +43,16 @@ function BasketPage() {
                                 <TableCell align="center">
                                     <Box>
                                         <LoadingButton
-                                            loading={status.loading && status.name === 'rem' + item.productId}
-                                            onClick={() => handleRemoveItem(item.productId, 1, 'rem' + item.productId)}>
+                                            loading={status === 'pendingRemoveItem' + item.productId + 'rem'}
+                                            onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: 1, operation: 'rem' }))}>
                                             <Remove />
                                         </LoadingButton>
+
                                         {item.quantity}
+
                                         <LoadingButton
-                                            loading={status.loading && status.name === 'add' + item.productId}
-                                            onClick={() => handleAddItem(item.productId, 'add' + item.productId)}>
+                                            loading={status === 'pendingAddItem' + item.productId}
+                                            onClick={() => dispatch(addItemToBasketAsync({ productId: item.productId }))}>
                                             <Add />
                                         </LoadingButton>
                                     </Box>
@@ -81,8 +60,8 @@ function BasketPage() {
                                 <TableCell align="right">${(item.price / 100 * item.quantity).toFixed(2)}</TableCell>
                                 <TableCell align="right">
                                     <LoadingButton
-                                        loading={status.loading && status.name === 'del' + item.productId}
-                                        onClick={() => handleRemoveItem(item.productId, item.quantity, 'del' + item.productId)}>
+                                        loading={status === 'pendingRemoveItem' + item.productId + 'del'}
+                                        onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: item.quantity, operation: 'del' }))}>
                                         <Delete />
                                     </LoadingButton>
                                 </TableCell>
@@ -90,7 +69,7 @@ function BasketPage() {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer >
             <Grid2 container sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Grid ></Grid>
                 <Grid >
