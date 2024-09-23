@@ -29,15 +29,16 @@ function ProductDetails() {
             .finally(() => setLoading(false));
     }, [id, item, dispatch])
 
-    function handleUpdateQuantity() {
+    function handleUpdateCart() {
         setSubmitting(true);
-        if (!item || quantity !== item?.quantity) {
-            const updatedQuantity = item ? quantity - item?.quantity : quantity;
+        if (!item || quantity !== item.quantity) {
+            const updatedQuantity = item ? quantity - item.quantity : quantity;
             agent.Basket.addItem(product!.id, updatedQuantity)
                 .then(basket => dispatch(setBasket(basket)))
                 .catch(error => console.log(error))
                 .finally(() => setSubmitting(false));
         } else {
+            
             setSubmitting(false);
         }
     }
@@ -113,7 +114,7 @@ function ProductDetails() {
                             size="large"
                             sx={{ height: '55px' }}
                             fullWidth
-                            onClick={handleUpdateQuantity}
+                            onClick={handleUpdateCart}
                         >
                             {item ? "Update Quantity" : "Add to Cart"}
                         </LoadingButton>

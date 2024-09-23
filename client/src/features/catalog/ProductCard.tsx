@@ -1,12 +1,10 @@
 import { Typography, Button, Card, CardActions, CardContent, CardMedia, Avatar, CardHeader } from "@mui/material"
 import { Product } from "../../App/models/product"
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { LoadingButton } from '@mui/lab';
-import agent from "../../App/api/agent";
 import { AddShoppingCart, VisibilityOutlined } from "@mui/icons-material";
-import { useAppDispatch } from "../../App/store/configureStore";
-import { setBasket } from "../basket/basketSlice";
+import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
+import { addItemToBasketAsync } from "../basket/basketSlice";
 
 interface ProductCardProps {
     product: Product;
@@ -14,16 +12,17 @@ interface ProductCardProps {
 
 function ProductCard({ product }: ProductCardProps) {
 
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
+    const { status } = useAppSelector(state => state.basket)
     const dispatch = useAppDispatch();
 
-    function handleAddToCart(productId: number) {
+    /*function handleAddToCart(productId: number) {
         setLoading(true);
         agent.Basket.addItem(productId)
             .then(basket => dispatch(setBasket(basket)))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
-    }
+    }*/
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -56,7 +55,12 @@ function ProductCard({ product }: ProductCardProps) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <LoadingButton loading={loading} onClick={() => handleAddToCart(product.id)} size="small"><AddShoppingCart /></LoadingButton>
+                <LoadingButton
+                    loading={status.includes('pending')}
+                    onClick={() => dispatch(addItemToBasketAsync({ productId: product.id }))}
+                    size="small">
+                    <AddShoppingCart />
+                </LoadingButton>
                 <Button
                     component={Link}
                     to={`${product.id}`}
