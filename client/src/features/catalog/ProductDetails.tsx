@@ -25,7 +25,7 @@ function ProductDetails() {
 
         if (item) {
             setQuantity(item.quantity)
-            initialQty.current = item!.quantity;
+            initialQty.current = item.quantity;
         }
 
         id && agent.Catalog.details(parseInt(id))
