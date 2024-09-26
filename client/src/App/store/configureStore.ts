@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { counterSlice } from "../../features/contact/counterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { basketSlice } from "../../features/basket/basketSlice";
+import { catalogSlice } from "../../features/catalog/catalogSlice";
 
 //This is no longer needed when using redux toolkit
 // export default function configureStore() {
@@ -11,7 +12,8 @@ import { basketSlice } from "../../features/basket/basketSlice";
 export const store = configureStore({
     reducer: {
         counter: counterSlice.reducer,
-        basket: basketSlice.reducer
+        basket: basketSlice.reducer,
+        catalog: catalogSlice.reducer
     }
 })
 

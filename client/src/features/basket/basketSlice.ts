@@ -12,7 +12,10 @@ export const initialState: BasketState = {
     status: 'idle'
 }
 
-export const addItemToBasketAsync = createAsyncThunk<Basket, { productId: number, quantity?: number }>(
+export const addItemToBasketAsync = createAsyncThunk<Basket, {
+    productId: number,
+    quantity?: number
+}>(
     'basket/addItemToBasketAsync',
     async ({ productId, quantity = 1 }) => {
         try {
@@ -23,7 +26,11 @@ export const addItemToBasketAsync = createAsyncThunk<Basket, { productId: number
     }
 )
 
-export const removeItemFromBasketAsync = createAsyncThunk<void, { productId: number, quantity: number, operation?: string }>(
+export const removeItemFromBasketAsync = createAsyncThunk<void, {
+    productId: number,
+    quantity: number,
+    operation?: string
+}>(
     'basket/removeItemFromBasketAsync',
     async ({ productId, quantity }) => {
         try {
