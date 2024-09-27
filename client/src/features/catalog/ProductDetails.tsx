@@ -1,39 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom"
-import { Product } from "../../App/models/product";
 import { Divider, Grid2, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
-import agent from "../../App/api/agent";
 import NotFound from "../../App/errors/NotFound";
 import LoadingComponent from "../../App/layout/LoadingComponent";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
 import { addItemToBasketAsync } from "../basket/basketSlice";
+import { fetchProductAsync, productsSelectors } from "./catalogSlice";
 
 function ProductDetails() {
 
     const { id } = useParams<{ id: string }>();
-    const [product, setProduct] = useState<Product | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [quantity, setQuantity] = useState(0);
+    const product = useAppSelector((state) => productsSelectors.selectById(state, parseInt(id!)));
+    const { status: productStatus } = useAppSelector(state => state.catalog);
     const { basket, status } = useAppSelector(state => state.basket);
+    const basketItem = basket?.items.find(item => item.productId === product?.id);
     const dispatch = useAppDispatch();
 
-    const item = basket?.items.find(item => item.productId === product?.id);
-    const initialQty = useRef(0);
+    const [quantity, setQuantity] = useState(0);
+    const quantityInBasket = useRef(0);
 
     useEffect(() => {
 
-        if (item) {
-            setQuantity(item.quantity)
-            initialQty.current = item.quantity;
+        if (basketItem) {
+            setQuantity(basketItem.quantity)
+            quantityInBasket.current = basketItem.quantity;
         }
 
-        id && agent.Catalog.details(parseInt(id))
-            .then(product => setProduct(product))
-            .catch(err => console.error(err))
-            .finally(() => setLoading(false));
+        if (!product) dispatch(fetchProductAsync(parseInt(id!)));
 
-    }, [id, item, dispatch])
+    }, [id, product, basketItem, dispatch])
 
     function handleChangeQuantity(event: React.ChangeEvent<HTMLInputElement>) {
 
@@ -44,7 +40,7 @@ function ProductDetails() {
         }
     }
 
-    if (loading) return <LoadingComponent message="Loading product..." />
+    if (productStatus.includes('pending')) return <LoadingComponent message="Loading product..." />
 
     if (!product) return <NotFound />
 
@@ -100,7 +96,7 @@ function ProductDetails() {
                     </Grid2>
                     <Grid2 size={6}>
                         <LoadingButton
-                            disabled={quantity === 0 || quantity === item?.quantity}
+                            disabled={quantity === 0 || quantity === basketItem?.quantity}
                             loading={status.includes('pending')}
                             color="primary"
                             variant="contained"
@@ -110,11 +106,11 @@ function ProductDetails() {
                             onClick={() => dispatch(
                                 addItemToBasketAsync({
                                     productId: product.id,
-                                    quantity: quantity - initialQty.current
+                                    quantity: quantity - quantityInBasket.current
                                 })
                             )}
                         >
-                            {item ? "Update Quantity" : "Add to Cart"}
+                            {basketItem ? "Update Quantity" : "Add to Cart"}
                         </LoadingButton>
                     </Grid2>
                 </Grid2>
