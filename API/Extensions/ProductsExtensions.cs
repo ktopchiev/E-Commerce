@@ -39,5 +39,18 @@ namespace API.Extensions
 
             return list;
         }
+
+        public static IQueryable<Product> Filter(this IQueryable<Product> query, string brand, string type)
+        {
+            if (!string.IsNullOrEmpty(brand))
+                brand = brand.Trim().ToLower();
+            if (!string.IsNullOrEmpty(type))
+                type = type.Trim().ToLower();
+
+            IQueryable<Product> list = query.Where(p => p.Brand.ToLower().Equals(brand) || p.Type.ToLower().Equals(type));
+
+            return list;
+
+        }
     }
 }
