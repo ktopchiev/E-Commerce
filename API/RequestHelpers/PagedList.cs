@@ -4,12 +4,13 @@ namespace API.RequestHelpers
 {
     public class PagedList<T> : List<T>
     {
-        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+
+        public PagedList(List<T> items, int itemsCount, int pageNumber, int pageSize)
         {
             MetaData = new MetaData
             {
-                TotalCount = count,
-                TotalPages = (int)Math.Ceiling(count / (double)pageSize),
+                TotalItemsCount = itemsCount,
+                TotalPages = (int)Math.Ceiling(itemsCount / (double)pageSize),
                 CurrentPage = pageNumber,
                 PageSize = pageSize
             };

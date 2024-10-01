@@ -38,9 +38,17 @@ namespace API.Extensions
         public static IQueryable<Product> Filter(this IQueryable<Product> query, string brand, string type)
         {
             if (!string.IsNullOrEmpty(brand))
+            {
                 brand = brand.Trim().ToLower();
-            if (!string.IsNullOrEmpty(type))
+            }
+            else if (!string.IsNullOrEmpty(type))
+            {
                 type = type.Trim().ToLower();
+            }
+            else
+            {
+                return query.OrderBy(p => p.Name);
+            }
 
             IQueryable<Product> list = query.Where(p => p.Brand.ToLower().Equals(brand) || p.Type.ToLower().Equals(type));
 
