@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
 {
@@ -10,7 +11,7 @@ namespace API.Extensions
     {
         public static IQueryable<Product> Sort(this IQueryable<Product> query, string orderBy)
         {
-            if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(p => p.Name);
+            if (string.IsNullOrEmpty(orderBy)) return query.OrderBy(p => p.Name);
 
             query = orderBy switch
             {
@@ -26,6 +27,17 @@ namespace API.Extensions
             };
 
             return query;
+        }
+
+        public static IQueryable<Product> Search(this IQueryable<Product> query, string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm)) return query.OrderBy(p => p.Name);
+
+            string lowerCaseSearchTerm = searchTerm.Trim().ToLower();
+
+            IQueryable<Product> list = query.Where(p => p.Name.Contains(lowerCaseSearchTerm));
+
+            return list;
         }
     }
 }
