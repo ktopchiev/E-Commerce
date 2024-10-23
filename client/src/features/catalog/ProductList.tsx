@@ -8,7 +8,7 @@ function ProductList({ products }: Props) {
 
         <Grid2 container spacing={4}>
             {products.map((product) => (
-                <Grid2 size={3} key={product.id}>
+                <Grid2 size={4} key={product.id}>
                     <ProductCard product={product} />
                 </Grid2>
             ))}
