@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
 import { fetchFiltersAsync, fetchProductsAsync, productsSelectors } from "./catalogSlice";
 import {
     Box, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid2,
-    Pagination, Paper, Radio, RadioGroup, TextField, Typography
+    Pagination, Paper, Radio, RadioGroup, Typography
 } from "@mui/material";
+import ProductSearch from "./ProductSearch";
 
 function Catalog() {
 
@@ -37,7 +38,7 @@ function Catalog() {
             <Grid2 container spacing={4}>
                 <Grid2 size={3}>
                     <Paper sx={{ mb: 2 }}>
-                        <TextField id="outlined-basic" label="Search products" variant="outlined" fullWidth />
+                        <ProductSearch />
                     </Paper>
                     <Paper sx={{ mb: 2, p: 2 }}>
                         <FormControl>

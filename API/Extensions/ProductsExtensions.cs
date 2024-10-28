@@ -30,7 +30,7 @@ namespace API.Extensions
 
             string lowerCaseSearchTerm = searchTerm.Trim().ToLower();
 
-            IQueryable<Product> list = query.Where(p => p.Name.Contains(lowerCaseSearchTerm));
+            IQueryable<Product> list = query.Where(p => p.Name.ToLower().Contains(lowerCaseSearchTerm));
 
             return list;
         }
