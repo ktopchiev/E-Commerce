@@ -1,6 +1,6 @@
 import ProductList from "./ProductList";
 import { useEffect } from "react";
-import LoadingComponent from "../../App/layout/LoadingComponent";
+import LoadingComponent from "../../App/layout/LoadingComponent"; 1
 import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
 import { fetchFiltersAsync, fetchProductsAsync, productsSelectors } from "./catalogSlice";
 import {
@@ -79,14 +79,20 @@ function Catalog() {
                     <ProductList products={products} />
                 </Grid2>
                 <Grid2 size={3}>
-                    <Typography>Showing page 1 of 3</Typography>
+
                 </Grid2>
-                <Grid2 size={9} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                    <Box>
-                        <Pagination count={10} />
+                <Grid2 size={9}>
+                    <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                        <Typography>Displaying 1-6 of 18 items</Typography>
+                        <Pagination
+                            color="secondary"
+                            size="large"
+                            count={10}
+                            page={2}
+                        />
                     </Box>
                 </Grid2>
-            </Grid2>
+            </Grid2 >
         </>
     )
 }

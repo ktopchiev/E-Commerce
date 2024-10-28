@@ -1,7 +1,16 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { Product } from "../../App/models/product";
+import { Product, ProductParams } from "../../App/models/product";
 import agent from "../../App/api/agent";
 import { RootState } from "../../App/store/configureStore";
+
+interface CatalogState {
+    productsLoaded: boolean;
+    filtersLoaded: boolean;
+    status: string;
+    brands: string[];
+    types: string[];
+    productParams: ProductParams;
+}
 
 const productsAdapter = createEntityAdapter<Product>();
 
@@ -10,7 +19,7 @@ export const fetchProductsAsync = createAsyncThunk<Product[]>(
     async (_, thunkAPI) => {
         try {
             return await agent.Catalog.list();
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         } catch (error: any) {
             return thunkAPI.rejectWithValue({ error: error.data });
         }
@@ -22,7 +31,6 @@ export const fetchProductAsync = createAsyncThunk<Product, number>(
     async (productId, thunkAPI) => {
         try {
             return await agent.Catalog.details(productId);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             return thunkAPI.rejectWithValue({ error: error.data });
         }
@@ -34,23 +42,39 @@ export const fetchFiltersAsync = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             return await agent.Catalog.fetchFilters();
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
 )
 
+function initParams() {
+    return {
+        pageNumber: 1,
+        pageSize: 6,
+        orderBy: 'name'
+    }
+}
+
 export const catalogSlice = createSlice({
     name: 'catalog',
-    initialState: productsAdapter.getInitialState({
+    initialState: productsAdapter.getInitialState<CatalogState>({
         status: 'idle',
         productsLoaded: false,
         filtersLoaded: false,
         brands: [],
-        types: []
+        types: [],
+        productParams: initParams()
     }),
-    reducers: {},
+    reducers: {
+        setProductParams: (state, action) => {
+            state.productsLoaded = false;
+            state.productParams = { ...state.productParams, ...action.payload };
+        },
+        resetProductParams: (state) => {
+            state.productParams = initParams();
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchProductsAsync.pending, (state) => {
@@ -94,3 +118,4 @@ export const catalogSlice = createSlice({
 })
 
 export const productsSelectors = productsAdapter.getSelectors((state: RootState) => state.catalog);
+export const { setProductParams, resetProductParams } = catalogSlice.actions;
