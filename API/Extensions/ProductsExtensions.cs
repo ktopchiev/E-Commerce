@@ -26,7 +26,7 @@ namespace API.Extensions
 
         public static IQueryable<Product> Search(this IQueryable<Product> query, string searchTerm)
         {
-            if (string.IsNullOrEmpty(searchTerm)) return query.OrderBy(p => p.Name);
+            if (string.IsNullOrEmpty(searchTerm)) return query;
 
             string lowerCaseSearchTerm = searchTerm.Trim().ToLower();
 
@@ -47,7 +47,7 @@ namespace API.Extensions
             }
             else
             {
-                return query.OrderBy(p => p.Name);
+                return query;
             }
 
             IQueryable<Product> list = query.Where(p => p.Brand.ToLower().Equals(brand) || p.Type.ToLower().Equals(type));
