@@ -24,7 +24,7 @@ namespace API.Controllers
             var query = _context.Products
                 .Sort(productParams.OrderBy)
                 .Search(productParams.SearchTerm)
-                .Filter(productParams.Brand, productParams.Type)
+                .Filter(productParams.Brands, productParams.Types)
                 .AsQueryable();
 
             var products = await PagedList<Product>.ToPagedList(query, productParams.PageNumber, productParams.PageSize);

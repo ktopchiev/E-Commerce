@@ -35,24 +35,25 @@ namespace API.Extensions
             return list;
         }
 
-        public static IQueryable<Product> Filter(this IQueryable<Product> query, string brand, string type)
+        public static IQueryable<Product> Filter(this IQueryable<Product> query, string brands, string types)
         {
-            if (!string.IsNullOrEmpty(brand))
+            var brandList = new List<string>();
+            var typeList = new List<string>();
+
+            if (!string.IsNullOrEmpty(brands))
             {
-                brand = brand.Trim().ToLower();
-            }
-            else if (!string.IsNullOrEmpty(type))
-            {
-                type = type.Trim().ToLower();
-            }
-            else
-            {
-                return query;
+                brandList.AddRange(brands.Trim().ToLower().Split(",").ToList());
             }
 
-            IQueryable<Product> list = query.Where(p => p.Brand.ToLower().Equals(brand) || p.Type.ToLower().Equals(type));
+            if (!string.IsNullOrEmpty(types))
+            {
+                typeList.AddRange(types.Trim().ToLower().Split(",").ToList());
+            }
 
-            return list;
+            query = query.Where(p => brandList.Count == 0 || brandList.Contains(p.Brand.ToLower()));
+            query = query.Where(p => typeList.Count == 0 || typeList.Contains(p.Type.ToLower()));
+
+            return query;
 
         }
     }
