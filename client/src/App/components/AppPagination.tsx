@@ -12,13 +12,18 @@ export default function AppPagination({ metaData, onPageChange }: Props) {
 
     return (
         <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-            <Typography>Displaying {(currentPage * pageSize) - pageSize + 1} - {currentPage * pageSize} of {totalItemsCount} items</Typography>
+            <Typography>
+                Displaying {(currentPage * pageSize) - pageSize + 1} - {totalItemsCount >= pageSize ?
+                    currentPage * pageSize
+                    : totalItemsCount}
+                of {totalItemsCount} items
+            </Typography>
             <Pagination
                 color="secondary"
                 size="large"
                 count={totalPages}
                 page={currentPage}
-                onChange={(e, page) => onPageChange(page)}
+                onChange={(_e, page) => onPageChange(page)}
             />
         </Box>
     )
