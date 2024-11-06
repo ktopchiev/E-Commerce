@@ -1,9 +1,9 @@
 //Match the properties that comes from the API
 export interface MetaData {
     currentPage: number;
-    totalPages: number;
     pageSize: number;
-    totalItems: number;
+    totalPages: number;
+    totalItemsCount: number;
 }
 
 export class PaginatedResponse<T> {

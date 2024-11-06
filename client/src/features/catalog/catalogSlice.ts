@@ -34,10 +34,9 @@ export const fetchProductsAsync = createAsyncThunk<Product[], void, { state: Roo
         try {
 
             const response = await agent.Catalog.list(params);
-            console.log(response.metaData);
             thunkAPI.dispatch(setMetaData(response.metaData));
-
             return response.items;
+
         } catch (error: any) {
             return thunkAPI.rejectWithValue({ error: error.data });
         }
