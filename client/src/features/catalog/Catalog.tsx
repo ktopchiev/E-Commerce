@@ -13,7 +13,7 @@ function Catalog() {
 
     const products = useAppSelector(productsSelectors.selectAll);
     const dispatch = useAppDispatch();
-    const { productsLoaded, status, filtersLoaded, brands, types, productParams, metaData } = useAppSelector(state => state.catalog)
+    const { productsLoaded, filtersLoaded, brands, types, productParams, metaData } = useAppSelector(state => state.catalog)
 
     const sortOptions = [
         { value: 'name', label: "Alphabetical" },
@@ -31,7 +31,7 @@ function Catalog() {
 
     }, [dispatch, filtersLoaded])
 
-    if (status.includes('pending') || !metaData) return <LoadingComponent message="Loading products..." />
+    if (!filtersLoaded) return <LoadingComponent message="Loading products..." />
     return (
         <>
             <Grid2 container columnSpacing={4}>
@@ -69,10 +69,12 @@ function Catalog() {
                 <Grid2 size={3}>
                 </Grid2>
                 <Grid2 size={9} sx={{ marginBottom: 2 }}>
-                    <AppPagination
-                        metaData={metaData}
-                        onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
-                    />
+                    {metaData &&
+                        <AppPagination
+                            metaData={metaData}
+                            onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
+                        />
+                    }
                 </Grid2>
             </Grid2 >
         </>
