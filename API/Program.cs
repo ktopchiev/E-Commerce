@@ -1,11 +1,13 @@
 using API.Data;
+using API.Entities;
 using API.Middleware;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,11 @@ internal class Program
 
         builder.Services.AddCors();
         // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddIdentityCore<User>()
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<StoreContext>();
+        builder.Services.AddAuthentication();
+        builder.Services.AddAuthorization();
 
         var app = builder.Build();
 
@@ -45,12 +52,13 @@ internal class Program
 
         var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
         try
         {
-            context.Database.Migrate();
-            DbInitializer.Initialize(context);
+            await context.Database.MigrateAsync();
+            await DbInitializer.Initialize(context, userManager);
         }
         catch (Exception ex)
         {
