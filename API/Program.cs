@@ -24,7 +24,10 @@ internal class Program
 
         builder.Services.AddCors();
         // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        builder.Services.AddIdentityCore<User>()
+        builder.Services.AddIdentityCore<User>(opt =>
+        {
+            opt.User.RequireUniqueEmail = true;
+        })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<StoreContext>();
         builder.Services.AddAuthentication();
