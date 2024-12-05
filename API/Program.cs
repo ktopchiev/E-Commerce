@@ -14,7 +14,6 @@ internal class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddDbContext<StoreContext>(opt =>
@@ -23,7 +22,7 @@ internal class Program
         });
 
         builder.Services.AddCors();
-        // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         builder.Services.AddIdentityCore<User>(opt =>
         {
             opt.User.RequireUniqueEmail = true;
@@ -49,6 +48,7 @@ internal class Program
             opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
         });
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
