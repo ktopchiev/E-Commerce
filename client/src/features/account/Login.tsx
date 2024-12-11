@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -9,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import agent from '../../App/api/agent';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -29,16 +30,18 @@ const Card = styled(MuiCard)(({ theme }) => ({
     }),
 }));
 
+interface FromInputs {
+    username: string,
+    password: string
+}
+
 export default function SignIn() {
+    const { register, handleSubmit } = useForm<FromInputs>();
 
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
+    const onSubmit: SubmitHandler<FromInputs> = (data) => {
+        agent.Account.login(data);
         console.log({
-            username: data.get('username'),
-            password: data.get('password'),
+            data
         });
     };
 
@@ -54,7 +57,7 @@ export default function SignIn() {
             </Typography>
             <Box
                 component="form"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
                 noValidate
                 sx={{
                     display: 'flex',
@@ -68,18 +71,17 @@ export default function SignIn() {
                     <TextField
                         id="username"
                         type="username"
-                        name="username"
                         placeholder="Username"
                         autoFocus
                         required
                         fullWidth
                         variant="outlined"
+                        {...register("username")}
                     />
                 </FormControl>
                 <FormControl>
                     <FormLabel htmlFor="password">Password</FormLabel>
                     <TextField
-                        name="password"
                         placeholder="••••••"
                         type="password"
                         id="password"
@@ -87,6 +89,7 @@ export default function SignIn() {
                         required
                         fullWidth
                         variant="outlined"
+                        {...register("password")}
                     />
                 </FormControl>
                 <Button
