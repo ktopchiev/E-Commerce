@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
@@ -8,8 +7,9 @@ import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import agent from '../../App/api/agent';
+import { LoadingButton } from '@mui/lab';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -36,15 +36,17 @@ interface FromInputs {
 }
 
 export default function SignIn() {
-    const { register, handleSubmit } = useForm<FromInputs>();
+    const { register, formState: { isSubmitting, isValid, errors }, handleSubmit } = useForm<FromInputs>({
+        mode: 'onTouched'
+    });
 
-    const onSubmit: SubmitHandler<FromInputs> = (data) => {
-        agent.Account.login(data);
-        console.log({
-            data
-        });
-    };
-
+    async function submitForm(data: FieldValues) {
+        try {
+            await agent.Account.login(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Card variant="outlined">
@@ -57,7 +59,7 @@ export default function SignIn() {
             </Typography>
             <Box
                 component="form"
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(submitForm)}
                 noValidate
                 sx={{
                     display: 'flex',
@@ -76,7 +78,9 @@ export default function SignIn() {
                         required
                         fullWidth
                         variant="outlined"
-                        {...register("username")}
+                        {...register("username", { required: "Username is required" })}
+                        error={!!errors.username}
+                        helperText={errors.username?.message}
                     />
                 </FormControl>
                 <FormControl>
@@ -89,16 +93,20 @@ export default function SignIn() {
                         required
                         fullWidth
                         variant="outlined"
-                        {...register("password")}
+                        {...register("password", { required: "Password is required" })}
+                        error={!!errors.password}
+                        helperText={errors.password?.message}
                     />
                 </FormControl>
-                <Button
+                <LoadingButton
+                    loading={isSubmitting}
                     type="submit"
                     fullWidth
                     variant="contained"
+                    disabled={!isValid}
                 >
                     Sign in
-                </Button>
+                </LoadingButton>
             </Box>
             <Divider>or</Divider>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
