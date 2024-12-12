@@ -9,6 +9,7 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
+        //test oh-my-posh
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
 
