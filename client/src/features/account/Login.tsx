@@ -6,10 +6,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
-import agent from '../../App/api/agent';
 import { LoadingButton } from '@mui/lab';
+import { useAppDispatch } from '../../App/store/configureStore';
+import { setSignIn } from './accountSlice';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -36,16 +37,17 @@ interface FromInputs {
 }
 
 export default function SignIn() {
+
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     const { register, formState: { isSubmitting, isValid, errors }, handleSubmit } = useForm<FromInputs>({
         mode: 'onTouched'
     });
 
     async function submitForm(data: FieldValues) {
-        try {
-            await agent.Account.login(data);
-        } catch (error) {
-            console.log(error);
-        }
+        dispatch(setSignIn(data));
+        navigate('/catalog');
     }
 
     return (
