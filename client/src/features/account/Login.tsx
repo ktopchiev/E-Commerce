@@ -42,7 +42,7 @@ export default function SignIn() {
     const dispatch = useAppDispatch();
 
     const { register, formState: { isSubmitting, isValid, errors }, handleSubmit } = useForm<FromInputs>({
-        mode: 'onTouched'
+        mode: 'all'
     });
 
     async function submitForm(data: FieldValues) {

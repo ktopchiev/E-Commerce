@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import User from "../../App/models/user";
 import { FieldValues } from "react-hook-form";
 import agent from "../../App/api/agent";
+import router from "../../App/router/Routes";
 
 export interface AccountState {
     user: User | null
@@ -37,14 +38,25 @@ export const setCurrentUser = createAsyncThunk<User>(
     }
 )
 
-
 export const accountSlice = createSlice({
     name: 'account',
     initialState,
-    reducers: {},
+    reducers: {
+        signOut: (state) => {
+            state.user = null;
+            localStorage.removeItem('user');
+            router.navigate('/');
+        }
+    },
     extraReducers: (builder) => {
-        builder.addMatcher(isAnyOf(setSignIn.fulfilled, setCurrentUser.fulfilled), (state, action) => {
-            state.user = action.payload;
-        })
+        builder
+            .addMatcher(isAnyOf(setSignIn.fulfilled, setCurrentUser.fulfilled), (state, action) => {
+                state.user = action.payload;
+            })
+            .addMatcher(isAnyOf(setSignIn.rejected, setCurrentUser.rejected), (state, action) => {
+                console.log(action.payload)
+            })
     }
 })
+
+export const { signOut } = accountSlice.actions;
