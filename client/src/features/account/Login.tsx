@@ -91,7 +91,6 @@ export default function SignIn() {
                         placeholder="••••••"
                         type="password"
                         id="password"
-                        autoFocus
                         required
                         fullWidth
                         variant="outlined"
