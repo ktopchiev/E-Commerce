@@ -58,6 +58,7 @@ namespace API.Controllers
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
+
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
             return new UserDto
