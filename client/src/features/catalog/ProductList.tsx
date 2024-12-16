@@ -16,8 +16,7 @@ function ProductList({ products }: Props) {
                         (< ProductCard product={product} />)
                     }
                 </Grid2>
-            ))
-            }
+            ))}
         </Grid2 >
     )
 }

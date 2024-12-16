@@ -16,7 +16,7 @@ function ProductCard({ product }: ProductCardProps) {
     const dispatch = useAppDispatch();
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 345 }} key={product.id}>
             <CardHeader
                 avatar={
                     <Avatar variant="circular" sx={{ bgcolor: 'secondary.main' }}>
