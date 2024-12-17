@@ -60,7 +60,7 @@ namespace API.Controllers
         /// <summary>
         /// Get the catalog page filters
         /// </summary>
-        /// <returns>New object of products brands and types</returns>
+        /// <returns>New object of listed brands and types</returns>
         [HttpGet("filters")]
         public async Task<IActionResult> GetFilters()
         {
