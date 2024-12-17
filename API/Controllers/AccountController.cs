@@ -18,6 +18,11 @@ namespace API.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Login user
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns>New UserDto</returns>
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
@@ -32,6 +37,11 @@ namespace API.Controllers
             };
         }
 
+        /// <summary>
+        /// Creates new user
+        /// </summary>
+        /// <param name="registerDto"></param>
+        /// <returns>StatusCode 201 - Ok</returns>
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
@@ -54,6 +64,10 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
+        /// <summary>
+        /// Get current logged in user
+        /// </summary>
+        /// <returns>New UserDto</returns>
         [Authorize]
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
