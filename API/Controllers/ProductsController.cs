@@ -18,6 +18,11 @@ namespace API.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Gets all products
+        /// </summary>
+        /// <param name="productParams"></param>
+        /// <returns>PagedList<@Product> products</returns>
         [HttpGet]
         public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] ProductParams productParams)
         {
@@ -34,6 +39,11 @@ namespace API.Controllers
             return products;
         }
 
+        /// <summary>
+        /// Gets a product by id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>Product product</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
@@ -47,12 +57,15 @@ namespace API.Controllers
             return product;
         }
 
+        /// <summary>
+        /// Get the catalog page filters
+        /// </summary>
+        /// <returns>New object of products brands and types</returns>
         [HttpGet("filters")]
         public async Task<IActionResult> GetFilters()
         {
             var brands = await _context.Products.Select(p => p.Brand).Distinct().ToListAsync();
             var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
-
             return Ok(new { brands, types });
         }
     }
