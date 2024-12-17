@@ -13,6 +13,12 @@ export const initialState: AccountState = {
     user: null
 }
 
+
+/**
+ * Sign in a user
+ * @param {FieldValues} FieldValues data
+ * @returns {User} User user
+ */
 export const setSignIn = createAsyncThunk<User, FieldValues>(
     'account/setSignIn',
     async (data, thunkAPI) => {
@@ -26,6 +32,10 @@ export const setSignIn = createAsyncThunk<User, FieldValues>(
     }
 )
 
+/**
+ * Fetch the current signed user
+ * @returns {User} user
+ */
 export const setCurrentUser = createAsyncThunk<User>(
     'account/setCurrentUser',
     async (_, thunkAPI) => {

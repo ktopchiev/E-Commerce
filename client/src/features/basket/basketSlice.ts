@@ -13,6 +13,10 @@ export const initialState: BasketState = {
     status: 'idle'
 }
 
+/**
+ * Fetch basket by using buyerId cookie
+ * @returns Basket
+ */
 export const fetchBasketAsync = createAsyncThunk<Basket>(
     'basket/fetchBasketAsync',
     async (_, thunkAPI) => {
@@ -29,6 +33,12 @@ export const fetchBasketAsync = createAsyncThunk<Basket>(
     }
 )
 
+/**
+ * Adds item(s) to the basket
+ * @param {number} productId - Product Id
+ * @param {number} quantity - Product Quantity
+ * @returns StatusCode201 or BadRequest
+ */
 export const addItemToBasketAsync = createAsyncThunk<Basket, {
     productId: number,
     quantity?: number
@@ -43,6 +53,13 @@ export const addItemToBasketAsync = createAsyncThunk<Basket, {
     }
 )
 
+/**
+ * Removes item(s) from the basket
+ * @param {number} productId - Product Id
+ * @param {number} quantity - Product Quantity
+ * @param {string?} operation - e.g. "del", "rem" - helps to distinguish loading indicator
+ * @returns StatusCode201 or BadRequest
+ */
 export const removeItemFromBasketAsync = createAsyncThunk<void, {
     productId: number,
     quantity: number,

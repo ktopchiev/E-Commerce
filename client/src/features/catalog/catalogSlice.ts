@@ -16,6 +16,7 @@ interface CatalogState {
 
 const productsAdapter = createEntityAdapter<Product>();
 
+
 function getAxiosParams(productParams: ProductParams) {
     const params = new URLSearchParams();
     params.append('pageNumber', productParams.pageNumber.toString());
@@ -27,6 +28,10 @@ function getAxiosParams(productParams: ProductParams) {
     return params;
 }
 
+/**
+ * Fetch all products
+ * @returns List of products
+ */
 export const fetchProductsAsync = createAsyncThunk<Product[], void, { state: RootState }>(
     'catalog/fetchProductsAsync',
     async (_, thunkAPI) => {
@@ -43,6 +48,12 @@ export const fetchProductsAsync = createAsyncThunk<Product[], void, { state: Roo
     }
 )
 
+
+/**
+ * Fetch single product details
+ * @param {number} number - Product id
+ * @returns {Product} Product
+ */
 export const fetchProductAsync = createAsyncThunk<Product, number>(
     'catalog/fetchProductAsync',
     async (productId, thunkAPI) => {
@@ -54,6 +65,10 @@ export const fetchProductAsync = createAsyncThunk<Product, number>(
     }
 )
 
+/**
+ * Fetch product filters for the catalog page
+ * @returns Object of listed brands and types
+ */
 export const fetchFiltersAsync = createAsyncThunk(
     'catalog/fetchFiltersAsync',
     async (_, thunkAPI) => {
