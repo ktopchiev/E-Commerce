@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
+    /// <summary>
+    /// Class <c>BasketItems</c> models an product item to be stored in a Basket
+    /// </summary>
     [Table("BasketItems")]
     public class BasketItem
     {

@@ -1,5 +1,8 @@
 ﻿namespace API.Entities
 {
+    /// <summary>
+    /// Class <c>Product</c> models a single product
+    /// </summary>
     public class Product
     {
         public int Id { get; set; }
