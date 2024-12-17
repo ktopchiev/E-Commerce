@@ -48,7 +48,7 @@ namespace API.Controllers
         /// <param name="productId">(int) An id of a product to be added</param>
         /// <param name="quantity">(int) Quantity of the added product</param>
         /// <remarks> A new basket will be created if such does not exist. If product is not found returns NotFound, else returns StatusCode 201.</remarks>
-        /// <returns>Status Code 201</returns>
+        /// <returns>StatusCode201 or BadRequest</returns>
         [HttpPost]
         public async Task<ActionResult> AddItemToBasket(int productId, int quantity)
         {
