@@ -47,7 +47,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="productId">(int) An id of a product to be added</param>
         /// <param name="quantity">(int) Quantity of the added product</param>
-        /// <remarks> A new basket will be created if no such exist. If product not found returns NotFound, otherwise returns StatusCode 201.</remarks>
+        /// <remarks> A new basket will be created if such does not exist. If product is not found returns NotFound, else returns StatusCode 201.</remarks>
         /// <returns>Status Code 201</returns>
         [HttpPost]
         public async Task<ActionResult> AddItemToBasket(int productId, int quantity)
@@ -72,11 +72,11 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Returns ActionResult for deleted basket item
+        /// Removes a Basket item from the basket
         /// </summary>
         /// <param name="productId">int product id to be deleted</param>
         /// <param name="quantity">int quantity of products to be increased/decreased</param>
-        /// <returns>Returns Ok</returns>
+        /// <returns>Status201 Ok if basket is removed or Status 400 BadRequest if the request is not possible</returns>
         [HttpDelete]
         public async Task<ActionResult<BasketDto>> RemoveBasketItem(int productId, int quantity)
         {
@@ -104,7 +104,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Retreive basket from the context with a buyerId cookie
+        /// Retreive a basket from the context using the buyerId cookie
         /// </summary>
         /// <returns>Basket basket || null</returns>
         private async Task<Basket> RetreiveBasket()
@@ -116,7 +116,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Creates a new Basket
+        /// Create a new Basket and store a new cookie with a buyerId to the client
         /// </summary>
         /// <returns>new Basket</returns>
         private Basket CreateBasket()
