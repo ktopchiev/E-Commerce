@@ -10,7 +10,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import agent from '../../App/api/agent';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -41,10 +40,24 @@ interface FromInputs {
 export default function Register() {
 
     const navigate = useNavigate();
-    const [validationErrors, setValidationErrors] = useState([]);
-    const { register, formState: { isSubmitting, isValid, errors }, handleSubmit } = useForm<FromInputs>({
+    const { register, handleSubmit, setError, formState: { isSubmitting, isValid, errors } } = useForm<FromInputs>({
         mode: 'all'
     });
+
+    function handleApiErrors(errors: any) {
+        console.log(errors);
+        if (errors) {
+            errors.forEach((error: string) => {
+                if (error.includes("Username")) {
+                    setError("username", { message: error });
+                } else if (error.includes("Email")) {
+                    setError("email", { message: error });
+                } else if (error.includes("Password")) {
+                    setError("password", { message: error });
+                }
+            });
+        }
+    }
 
     return (
         <Card variant="outlined">
@@ -63,7 +76,9 @@ export default function Register() {
                             toast.success('Registration have been successful - please login');
                             navigate('/login');
                         })
-                        .catch(err => setValidationErrors(err));
+                        .catch(err => {
+                            handleApiErrors(err);
+                        });
                 })}
                 noValidate
                 sx={{
@@ -100,7 +115,7 @@ export default function Register() {
                             required: "Email is required",
                             pattern: {
                                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: "Invalin email address"
+                                message: "Invalid email address"
                             }
                         })}
                         error={!!errors.email}
@@ -136,17 +151,6 @@ export default function Register() {
                     Register
                 </LoadingButton>
             </Box>
-            {validationErrors.length > 0 &&
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    sx={{ backgroundColor: '#ff6f61', padding: '20px' }}
-                >
-                    {validationErrors.map(error =>
-                        <Typography>{error}</Typography>
-                    )}
-                </Box>
-            }
             <Divider>or</Divider>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Typography sx={{ textAlign: 'center' }}>
