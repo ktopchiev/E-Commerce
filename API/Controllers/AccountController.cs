@@ -1,5 +1,7 @@
+using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,11 +13,13 @@ namespace API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
+        private readonly StoreContext _context;
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService)
+        public AccountController(UserManager<User> userManager, TokenService tokenService, StoreContext context)
         {
             _tokenService = tokenService;
             _userManager = userManager;
+            _context = context;
         }
 
         /// <summary>
@@ -30,10 +34,25 @@ namespace API.Controllers
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
                 return Unauthorized();
 
+            var userBasket = await _context.RetreiveBasket(loginDto.Username);
+            var anonymousBasket = await _context.RetreiveBasket(Request.Cookies["buyerId"]);
+
+            if (anonymousBasket != null)
+            {
+                if (userBasket != null)
+                {
+                    userBasket.AddRange(anonymousBasket.Items);
+                    anonymousBasket.BuyerId = user.UserName;
+                    Response.Cookies.Delete("buyerId");
+                    await _context.SaveChangesAsync();
+                }
+            }
+
             return new UserDto
             {
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user),
+                Basket = userBasket != null ? userBasket.MapBasketToDto() : anonymousBasket.MapBasketToDto()
             };
         }
 
@@ -78,7 +97,7 @@ namespace API.Controllers
             return new UserDto
             {
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user),
             };
         }
     }

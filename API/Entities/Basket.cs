@@ -26,6 +26,22 @@ namespace API.Entities
             if (existingItem != null) existingItem.Quantity += quantity;
         }
 
+        public void AddRange(List<BasketItem> basketItems)
+        {
+            var newItems = basketItems.Except(Items);
+            var existItems = basketItems.Except(newItems);
+
+            foreach (var item in basketItems)
+            {
+                foreach (var existItem in existItems)
+                {
+                    item.Quantity += existItem.Quantity;
+                }
+            }
+
+            Items.AddRange(newItems);
+        }
+
         /// <summary>
         /// Removes item from the basket
         /// </summary>
