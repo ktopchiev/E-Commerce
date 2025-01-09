@@ -12,11 +12,11 @@ namespace API.Extensions
         /// Retreive a basket from the context using the buyerId cookie
         /// </summary>
         /// <returns>Basket basket || null</returns>
-        public static async Task<Basket> RetreiveBasket(this StoreContext _context, string buyerId, HttpResponse response = null)
+        public static async Task<Basket> RetreiveBasket(this StoreContext _context, string buyerId, HttpResponse response = null, HttpRequest request = null)
         {
             if (buyerId.IsNullOrEmpty())
             {
-                response.Cookies.Delete("buyerId");
+                if (request.Cookies.Any(c => c.Key == "buyerId")) response.Cookies.Delete("buyerId");
                 return null;
             }
 

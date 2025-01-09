@@ -35,26 +35,34 @@ namespace API.Controllers
                 return Unauthorized();
 
             var userBasket = await _context.RetreiveBasket(loginDto.Username);
-            var anonymousBasket = await _context.RetreiveBasket(Request.Cookies["buyerId"]);
+            var anonymousBasket = await _context.RetreiveBasket(Request.Cookies["buyerId"], null, Request);
 
-            if (anonymousBasket != null)
+            if (anonymousBasket != null && userBasket != null)
             {
-                if (userBasket != null)
-                {
-                    anonymousBasket.AddItems(userBasket.Items);
-                    anonymousBasket.BuyerId = user.UserName;
-                    _context.Baskets.Remove(userBasket);
-                    Response.Cookies.Delete("buyerId");
-                    await _context.SaveChangesAsync();
-                }
+                anonymousBasket.AddItems(userBasket.Items);
+                anonymousBasket.BuyerId = user.UserName;
+                _context.Baskets.Remove(userBasket);
+                Response.Cookies.Delete("buyerId");
+                await _context.SaveChangesAsync();
             }
 
-            return new UserDto
+            var userDto = new UserDto
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                Basket = userBasket != null ? userBasket.MapBasketToDto() : anonymousBasket.MapBasketToDto()
+                Basket = null
             };
+
+            if (userBasket != null)
+            {
+                userDto.Basket = userBasket.MapBasketToDto();
+            }
+            else if (anonymousBasket != null)
+            {
+                userDto.Basket = anonymousBasket.MapBasketToDto();
+            }
+
+            return userDto;
         }
 
         /// <summary>
