@@ -2,7 +2,6 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -23,7 +22,7 @@ namespace API.Controllers
         [HttpGet(Name = "GetBasket")]
         public async Task<ActionResult<BasketDto>> GetBasket()
         {
-            Basket basket = await _context.RetreiveBasket(GetBuyerId());
+            Basket basket = await _context.RetreiveBasket(GetBuyerId(), Response);
 
             if (basket == null) return NotFound();
 
@@ -71,7 +70,7 @@ namespace API.Controllers
         public async Task<ActionResult<BasketDto>> RemoveBasketItem(int productId, int quantity)
         {
             //get basket
-            var basket = await _context.RetreiveBasket(GetBuyerId());
+            var basket = await _context.RetreiveBasket(GetBuyerId(), Response);
 
             if (basket == null) return NotFound();
 

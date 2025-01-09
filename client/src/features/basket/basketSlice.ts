@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { Basket } from "../../App/models/basket";
 import agent from "../../App/api/agent";
 import { getCookie } from "../../App/util/util";
+import { store } from "../../App/store/configureStore";
 
 export interface BasketState {
     basket: Basket | null;
@@ -28,7 +29,7 @@ export const fetchBasketAsync = createAsyncThunk<Basket>(
     },
     {
         condition: () => {
-            if (!getCookie('buyerId')) return false;
+            if (!getCookie('buyerId') && !store.getState().account.user) return false;
         }
     }
 )
@@ -81,6 +82,9 @@ export const basketSlice = createSlice({
     reducers: {
         setBasket: (state, action) => {
             state.basket = action.payload;
+        },
+        removeBasket: (state) => {
+            state.basket = null;
         }
     },
     extraReducers: (builder) => {
@@ -117,4 +121,4 @@ export const basketSlice = createSlice({
     },
 })
 
-export const { setBasket } = basketSlice.actions;
+export const { setBasket, removeBasket } = basketSlice.actions;

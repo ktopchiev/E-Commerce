@@ -41,8 +41,9 @@ namespace API.Controllers
             {
                 if (userBasket != null)
                 {
-                    userBasket.AddRange(anonymousBasket.Items);
+                    anonymousBasket.AddItems(userBasket.Items);
                     anonymousBasket.BuyerId = user.UserName;
+                    _context.Baskets.Remove(userBasket);
                     Response.Cookies.Delete("buyerId");
                     await _context.SaveChangesAsync();
                 }

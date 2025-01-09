@@ -11,6 +11,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch } from '../../App/store/configureStore';
 import { setSignIn } from './accountSlice';
+import { fetchBasketAsync } from '../basket/basketSlice';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -46,8 +47,13 @@ export default function SignIn() {
     });
 
     async function submitForm(data: FieldValues) {
-        dispatch(setSignIn(data));
-        navigate('/catalog');
+        try {
+            await dispatch(setSignIn(data));
+            dispatch(fetchBasketAsync());
+            navigate('/catalog');
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (

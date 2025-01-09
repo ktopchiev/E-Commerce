@@ -2,7 +2,7 @@ import { DarkModeOutlined, LightMode, ShoppingCartOutlined } from "@mui/icons-ma
 import { AppBar, Badge, Box, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material"
 import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
-import SignedInMenu from "../components/SignedInMenu";
+import SignedInMenu from "./components/SignedInMenu";
 
 const midLinks = [
     { title: 'catalog', path: '/catalog' },

@@ -26,20 +26,24 @@ namespace API.Entities
             if (existingItem != null) existingItem.Quantity += quantity;
         }
 
-        public void AddRange(List<BasketItem> basketItems)
+        /// <summary>
+        /// Adds multiple items to a user basket
+        /// </summary>
+        /// <param name="basketItems"></param>
+        public void AddItems(List<BasketItem> basketItems)
         {
-            var newItems = basketItems.Except(Items);
-            var existItems = basketItems.Except(newItems);
-
-            foreach (var item in basketItems)
+            Items.AddRange(basketItems);
+            Items = Items.OrderBy(i => i.ProductId).ToList();
+            var item = 0;
+            while (item < Items.Count - 1)
             {
-                foreach (var existItem in existItems)
+                if (Items[item].ProductId == Items[item + 1].ProductId)
                 {
-                    item.Quantity += existItem.Quantity;
+                    Items[item].Quantity += Items[item + 1].Quantity;
+                    Items.Remove(Items[item + 1]);
                 }
+                item++;
             }
-
-            Items.AddRange(newItems);
         }
 
         /// <summary>

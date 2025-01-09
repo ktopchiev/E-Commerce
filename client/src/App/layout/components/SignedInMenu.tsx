@@ -3,7 +3,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signOut } from '../../features/account/accountSlice';
+import { signOut } from '../../../features/account/accountSlice';
+import { removeBasket } from '../../../features/basket/basketSlice';
 
 export default function SignedInMenu({ email }: any) {
 
@@ -38,7 +39,12 @@ export default function SignedInMenu({ email }: any) {
             >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My orders</MenuItem>
-                <MenuItem onClick={() => dispatch(signOut())}>Logout</MenuItem>
+                <MenuItem onClick={() => {
+                    dispatch(signOut());
+                    dispatch(removeBasket());
+                }}>
+                    Logout
+                </MenuItem>
             </Menu>
         </div>
     );
