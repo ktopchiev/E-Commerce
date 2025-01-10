@@ -46,23 +46,12 @@ namespace API.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            var userDto = new UserDto
+            return new UserDto
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                Basket = null
+                Basket = userBasket != null ? userBasket.MapBasketToDto() : anonymousBasket?.MapBasketToDto()
             };
-
-            if (userBasket != null)
-            {
-                userDto.Basket = userBasket.MapBasketToDto();
-            }
-            else if (anonymousBasket != null)
-            {
-                userDto.Basket = anonymousBasket.MapBasketToDto();
-            }
-
-            return userDto;
         }
 
         /// <summary>
@@ -103,10 +92,13 @@ namespace API.Controllers
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
+            var userBasket = await _context.RetreiveBasket(User.Identity.Name);
+
             return new UserDto
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
+                Basket = userBasket?.MapBasketToDto()
             };
         }
     }

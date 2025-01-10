@@ -80,7 +80,7 @@ export const accountSlice = createSlice({
                 state.user = action.payload;
             })
             .addMatcher(isAnyOf(setSignIn.rejected), (_, action) => {
-                console.log(action.payload)
+                throw action.payload;
             })
     }
 })

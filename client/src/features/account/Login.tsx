@@ -49,7 +49,7 @@ export default function SignIn() {
     async function submitForm(data: FieldValues) {
         try {
             await dispatch(setSignIn(data));
-            dispatch(fetchBasketAsync());
+            await dispatch(fetchBasketAsync());
             navigate('/catalog');
         } catch (error) {
             console.log(error)

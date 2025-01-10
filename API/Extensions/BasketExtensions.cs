@@ -16,7 +16,7 @@ namespace API.Extensions
         {
             if (buyerId.IsNullOrEmpty())
             {
-                if (request.Cookies.Any(c => c.Key == "buyerId")) response.Cookies.Delete("buyerId");
+                if (request != null && request.Cookies.Any(c => c.Key == "buyerId")) response.Cookies.Delete("buyerId");
                 return null;
             }
 
