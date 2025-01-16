@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch } from '../../App/store/configureStore';
@@ -40,6 +40,7 @@ interface FromInputs {
 export default function SignIn() {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useAppDispatch();
 
     const { register, formState: { isSubmitting, isValid, errors }, handleSubmit } = useForm<FromInputs>({
@@ -50,7 +51,7 @@ export default function SignIn() {
         try {
             await dispatch(setSignIn(data));
             await dispatch(fetchBasketAsync());
-            navigate('/catalog');
+            navigate(location.state?.from || '/catalog');
         } catch (error) {
             console.log(error)
         }
