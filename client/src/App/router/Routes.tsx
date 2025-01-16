@@ -1,6 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../layout/App";
-import HomePage from "../../features/home/HomePage";
 import AboutPage from "../../features/about/AboutPage";
 import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
@@ -26,10 +25,6 @@ const router = createBrowserRouter([
                         element: <CheckoutPage />
                     }
                 ]
-            },
-            {
-                path: 'home',
-                element: <HomePage />
             },
             {
                 path: 'catalog',
