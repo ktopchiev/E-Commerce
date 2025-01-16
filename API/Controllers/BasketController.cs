@@ -114,7 +114,7 @@ namespace API.Controllers
                 buyerId = Guid.NewGuid().ToString();
 
                 //Create a cookie
-                var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(30) };
+                var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.UtcNow.AddDays(30) };
 
                 //This comes from ControllerBase class
                 Response.Cookies.Append("buyerId", buyerId, cookieOptions);
