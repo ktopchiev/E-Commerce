@@ -47,9 +47,10 @@ function ProductCard({ product }: ProductCardProps) {
             </CardContent>
             <CardActions>
                 <LoadingButton
-                    loading={status.includes('pendingAddItem' + product.id)}
+                    loading={status === 'pendingAddItem' + product.id}
                     onClick={() => dispatch(addItemToBasketAsync({ productId: product.id }))}
-                    size="small">
+                    size="small"
+                >
                     <AddShoppingCart />
                 </LoadingButton>
                 <Button
@@ -60,7 +61,7 @@ function ProductCard({ product }: ProductCardProps) {
                     <VisibilityOutlined />
                 </Button>
             </CardActions>
-        </Card>
+        </Card >
     )
 }
 
