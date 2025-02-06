@@ -1,8 +1,10 @@
 import { DarkModeOutlined, LightMode, ShoppingCartOutlined } from "@mui/icons-material";
-import { AppBar, Badge, Box, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material"
+import { AppBar, Badge, Box, IconButton, List, ListItem, Menu, MenuItem, Toolbar, Typography } from "@mui/material"
 import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
 import SignedInMenu from "./components/SignedInMenu";
+import { useState } from "react";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const midLinks = [
     { title: 'catalog', path: '/catalog' },
@@ -15,9 +17,11 @@ const rightLinks = [
     { title: 'register', path: '/register' }
 ]
 
+const navMenuLinks = midLinks.concat(rightLinks);
+
 const navStyles = {
     color: 'inherit',
-    typography: 'h6',
+    typography: { sm: 'subtitle1', md: 'h6' },
     textDecoration: 'none',
     '&:hover': {
         color: 'text.disabled'
@@ -35,7 +39,16 @@ interface Props {
 function Header({ darkMode, handleDarkMode }: Props) {
     const { user } = useAppSelector(state => state.account);
     const { basket } = useAppSelector(state => state.basket);
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
+
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
 
     return (
         <AppBar position="static">
@@ -43,7 +56,6 @@ function Header({ darkMode, handleDarkMode }: Props) {
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography
-                        variant="h6"
                         component={NavLink}
                         to='/'
                         sx={navStyles}
@@ -58,7 +70,7 @@ function Header({ darkMode, handleDarkMode }: Props) {
                     </IconButton>
                 </Box>
 
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                     <List sx={{ display: 'flex' }}>
                         {midLinks.map(({ title, path }) =>
                             <ListItem
@@ -74,7 +86,49 @@ function Header({ darkMode, handleDarkMode }: Props) {
                     </List>
                 </Box>
 
-                <Box sx={{ display: 'flex' }}>
+                {/* NavMenu on xs view */}
+                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none', justifyContent: 'flex-end' } }}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleOpenNavMenu}
+                        color="inherit"
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorElNav}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElNav)}
+                        onClose={handleCloseNavMenu}
+                        sx={{ display: { xs: 'block', md: 'none' } }}
+                    >
+                        {navMenuLinks.map(({ title, path }) => (
+                            <MenuItem
+                                component={NavLink}
+                                key={path}
+                                to={path}
+                                onClick={handleCloseNavMenu}>
+                                <Typography sx={{ textAlign: 'center' }}>
+                                    {title.toUpperCase()}
+                                </Typography>
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </Box>
+
+                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                     <IconButton component={Link} to={'/basket'} sx={{ color: 'inherit' }}>
                         <Badge badgeContent={itemCount} color="error">
                             <ShoppingCartOutlined />

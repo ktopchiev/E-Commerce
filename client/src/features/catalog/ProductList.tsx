@@ -10,7 +10,7 @@ function ProductList({ products }: Props) {
 
         <Grid2 container spacing={4}>
             {products.map((product) => (
-                <Grid2 size={4} key={product.id}>
+                <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={product.id}>
                     {!productsLoaded ?
                         (<ProductCardSkeleton />) :
                         (< ProductCard product={product} />)

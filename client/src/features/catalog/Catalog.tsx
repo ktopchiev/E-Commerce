@@ -35,7 +35,7 @@ function Catalog() {
     return (
         <>
             <Grid2 container columnSpacing={4}>
-                <Grid2 size={3}>
+                <Grid2 sx={{ display: { xs: 'none', md: 'block' } }} size={{ md: 3, xs: 'auto' }}>
                     <Paper sx={{ mb: 2 }}>
                         <ProductSearch />
                     </Paper>
@@ -63,7 +63,7 @@ function Catalog() {
                         />
                     </Paper>
                 </Grid2>
-                <Grid2 size={9}>
+                <Grid2 sx={{ display: { xs: 'block' } }} size={{ xs: 12, md: 9 }}>
                     <ProductList products={products} />
                 </Grid2>
                 <Grid2 size={3}>

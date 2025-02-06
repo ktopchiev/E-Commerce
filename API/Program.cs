@@ -71,6 +71,7 @@ internal class Program
 
             connString = $"Server={updatedHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
         }
+
         builder.Services.AddDbContext<StoreContext>(opt =>
         {
             opt.UseNpgsql(connString);
@@ -85,6 +86,7 @@ internal class Program
         })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<StoreContext>();
+
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt =>
             {
@@ -98,7 +100,9 @@ internal class Program
                         GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
                 };
             });
+
         builder.Services.AddAuthorization();
+
         builder.Services.AddScoped<TokenService>();
 
         var app = builder.Build();
@@ -115,8 +119,9 @@ internal class Program
             });
         }
 
-        app.UseDefaultFiles();
-        app.UseStaticFiles();
+        //Serve static files(wwwroot)
+        //app.UseDefaultFiles();
+        //app.UseStaticFiles();
 
         app.UseCors(opt =>
         {
@@ -127,7 +132,7 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        app.MapFallbackToController("Index", "Fallback");
+        //app.MapFallbackToController("Index", "Fallback");
 
         var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
