@@ -12,18 +12,18 @@ export default function AppPagination({ metaData, onPageChange }: Props) {
 
     return (
         <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-            <Typography>
+            <Typography sx={{ typography: { xs: 'subtitle2', md: 'subtitle1' } }}>
                 Displaying {(currentPage * pageSize) - pageSize + 1} - {totalItemsCount >= pageSize ?
                     currentPage * pageSize
-                    : totalItemsCount}
-                of {totalItemsCount} items
+                    : totalItemsCount} of {totalItemsCount} items
             </Typography>
             <Pagination
                 color="secondary"
-                size="large"
+                size="small"
                 count={totalPages}
                 page={currentPage}
                 onChange={(_e, page) => onPageChange(page)}
+                className="pagination"
             />
         </Box>
     )
