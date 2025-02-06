@@ -120,8 +120,8 @@ internal class Program
         }
 
         //Serve static files(wwwroot)
-        //app.UseDefaultFiles();
-        //app.UseStaticFiles();
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
 
         app.UseCors(opt =>
         {
@@ -132,7 +132,7 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        //app.MapFallbackToController("Index", "Fallback");
+        app.MapFallbackToController("Index", "Fallback");
 
         var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
