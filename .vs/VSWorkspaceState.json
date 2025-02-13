@@ -1,14 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\API",
     "\\client",
     "\\client\\src",
-    "\\client\\src\\App",
     "\\client\\src\\App\\api",
-    "\\client\\src\\features",
-    "\\client\\src\\features\\catalog"
+    "\\client\\src\\features"
   ],
-  "SelectedNode": "\\client\\src\\App\\api\\agent.ts",
+  "SelectedNode": "\\API",
   "PreviewInSolutionExplorer": false
 }
