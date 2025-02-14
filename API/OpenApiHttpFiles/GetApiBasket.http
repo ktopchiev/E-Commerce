@@ -1,0 +1,11 @@
+@contentType = application/json
+
+##############################
+### Request: GET /api/Basket
+##############################
+
+
+GET http://localhost:5000/api/Basket
+Content-Type: {{contentType}}
+
+

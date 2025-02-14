@@ -1,0 +1,11 @@
+@contentType = application/json
+
+########################################
+### Request: GET /api/Products/filters
+########################################
+
+
+GET http://localhost:5000/api/Products/filters
+Content-Type: {{contentType}}
+
+

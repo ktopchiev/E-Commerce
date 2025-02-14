@@ -1,0 +1,11 @@
+@contentType = application/json
+
+#######################################
+### Request: GET /api/Buggy/not-found
+#######################################
+
+
+GET http://localhost:5000/api/Buggy/not-found
+Content-Type: {{contentType}}
+
+

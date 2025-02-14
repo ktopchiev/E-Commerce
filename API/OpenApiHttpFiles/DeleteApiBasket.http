@@ -1,0 +1,17 @@
+@contentType = application/json
+
+#################################
+### Request: DELETE /api/Basket
+#################################
+
+### Query Parameter: productId
+@productId = 0
+
+### Query Parameter: quantity
+@quantity = 0
+
+
+DELETE http://localhost:5000/api/Basket?productId={{productId}}&quantity={{quantity}}
+Content-Type: {{contentType}}
+
+

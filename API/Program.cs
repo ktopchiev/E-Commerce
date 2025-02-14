@@ -120,10 +120,12 @@ internal class Program
                 c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
             });
         }
-
-        //Serve static files(wwwroot)
-        app.UseDefaultFiles();
-        app.UseStaticFiles();
+        else
+        {
+            //Serve static files(wwwroot)
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+        }
 
         app.UseCors(opt =>
         {
@@ -134,7 +136,11 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        app.MapFallbackToController("Index", "Fallback");
+
+        if (!app.Environment.IsDevelopment())
+        {
+            app.MapFallbackToController("Index", "Fallback");
+        }
 
         var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<StoreContext>();

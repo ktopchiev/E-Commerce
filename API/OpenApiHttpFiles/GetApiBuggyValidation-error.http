@@ -1,0 +1,11 @@
+@contentType = application/json
+
+##############################################
+### Request: GET /api/Buggy/validation-error
+##############################################
+
+
+GET http://localhost:5000/api/Buggy/validation-error
+Content-Type: {{contentType}}
+
+

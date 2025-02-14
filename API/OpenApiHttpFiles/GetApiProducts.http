@@ -1,0 +1,32 @@
+@contentType = application/json
+
+################################
+### Request: GET /api/Products
+################################
+
+### Query Parameter: OrderBy
+@OrderBy = str
+
+### Query Parameter: SearchTerm
+@SearchTerm = str
+
+### Query Parameter: Brands
+@Brands = str
+
+### Query Parameter: Types
+@Types = str
+
+### Query Parameter: TotalSize
+@TotalSize = 0
+
+### Query Parameter: PageSize
+@PageSize = 0
+
+### Query Parameter: PageNumber
+@PageNumber = 0
+
+
+GET http://localhost:5000/api/Products?OrderBy={{OrderBy}}&SearchTerm={{SearchTerm}}&Brands={{Brands}}&Types={{Types}}&TotalSize={{TotalSize}}&PageSize={{PageSize}}&PageNumber={{PageNumber}}
+Content-Type: {{contentType}}
+
+

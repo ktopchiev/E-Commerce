@@ -1,0 +1,11 @@
+@contentType = application/json
+
+###########################################
+### Request: GET /api/Account/currentUser
+###########################################
+
+
+GET http://localhost:5000/api/Account/currentUser
+Content-Type: {{contentType}}
+
+

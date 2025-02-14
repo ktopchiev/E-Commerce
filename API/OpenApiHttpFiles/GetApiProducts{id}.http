@@ -1,0 +1,14 @@
+@contentType = application/json
+
+#####################################
+### Request: GET /api/Products/{id}
+#####################################
+
+### Path Parameter: id
+@id = 0
+
+
+GET http://localhost:5000/api/Products/{{id}}
+Content-Type: {{contentType}}
+
+

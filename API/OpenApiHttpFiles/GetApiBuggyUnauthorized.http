@@ -1,0 +1,11 @@
+@contentType = application/json
+
+##########################################
+### Request: GET /api/Buggy/unauthorized
+##########################################
+
+
+GET http://localhost:5000/api/Buggy/unauthorized
+Content-Type: {{contentType}}
+
+

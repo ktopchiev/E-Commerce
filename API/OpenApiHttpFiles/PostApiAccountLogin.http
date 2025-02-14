@@ -1,0 +1,15 @@
+@contentType = application/json
+
+######################################
+### Request: POST /api/Account/login
+######################################
+
+
+POST http://localhost:5000/api/Account/login
+Content-Type: {{contentType}}
+
+{
+  "username": "username",
+  "password": "password"
+}
+
