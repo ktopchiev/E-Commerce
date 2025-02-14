@@ -1,4 +1,4 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2, Button } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2, Button, useMediaQuery, Card, CardContent, CardMedia, IconButton } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { Add, Delete, Remove } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
@@ -12,37 +12,89 @@ function BasketPage() {
     const { basket, status } = useAppSelector(state => state.basket);
     const dispatch = useAppDispatch();
 
+    const isMobile = useMediaQuery("(max-width:670px)");
+
     if (!basket) return <Typography variant='h3'>Your basket is empty</Typography>
+
 
     return (
         <>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Product</TableCell>
-                            <TableCell align="right">Price</TableCell>
-                            <TableCell align="center">Quantity</TableCell>
-                            <TableCell align="right">Subtotal</TableCell>
-                            <TableCell align="right"></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {basket?.items.map(item => (
-                            <TableRow
-                                key={item.productId}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <img src={item.pictureUrl} style={{ height: 50, marginRight: 20 }} />
-                                        <span>{item.name}</span>
-                                    </Box>
-                                </TableCell>
-                                <TableCell align="right">${(item.price / 100).toFixed(2)}</TableCell>
-                                <TableCell align="center">
-                                    <Box>
+            <TableContainer component={Paper} sx={{ display: "flex", justifyContent: "center" }}>
+                {!isMobile ?
+                    <Table sx={{ minWidth: 600 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Product</TableCell>
+                                <TableCell align="right">Price</TableCell>
+                                <TableCell align="center">Quantity</TableCell>
+                                <TableCell align="right">Subtotal</TableCell>
+                                <TableCell align="right"></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {basket?.items.map(item => (
+                                <TableRow
+                                    key={item.productId}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <img src={item.pictureUrl} style={{ height: 50, marginRight: 20 }} />
+                                            <Typography sx={{ typography: { xs: 'none', sm: 'subtitle1' } }}>{item.name}</Typography>
+                                        </Box>
+                                    </TableCell>
+                                    <TableCell align="right">${(item.price / 100).toFixed(2)}</TableCell>
+                                    <TableCell align="center">
+                                        <Box>
+                                            <LoadingButton
+                                                loading={status === 'pendingRemoveItem' + item.productId + 'rem'}
+                                                onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: 1, operation: 'rem' }))}>
+                                                <Remove />
+                                            </LoadingButton>
+
+                                            {item.quantity}
+
+                                            <LoadingButton
+                                                loading={status === 'pendingAddItem' + item.productId}
+                                                onClick={() => dispatch(addItemToBasketAsync({ productId: item.productId }))}>
+                                                <Add />
+                                            </LoadingButton>
+                                        </Box>
+                                    </TableCell>
+                                    <TableCell align="right" sx={{ p: 0 }}>${(item.price / 100 * item.quantity).toFixed(2)}</TableCell>
+                                    <TableCell align="right" sx={{ pl: 0 }}>
                                         <LoadingButton
+                                            color="error"
+                                            loading={status === 'pendingRemoveItem' + item.productId + 'del'}
+                                            onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: item.quantity, operation: 'del' }))}>
+                                            <Delete />
+                                        </LoadingButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table> :
+                    <Box>
+                        {basket.items.map(item =>
+                            <Card sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 2, boxShadow: 3, maxWidth: 500, mb: 1 }}>
+                                {/* Product Image */}
+                                <CardMedia
+                                    component="img"
+                                    image={item.pictureUrl}
+                                    alt={item.name}
+                                    sx={{ width: 100, height: 100, objectFit: "cover", borderRadius: 1 }}
+                                />
+
+                                {/* Product Details */}
+                                <CardContent sx={{ flex: "1", display: "flex", flexDirection: "column", gap: 1 }}>
+                                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                                        {item.name}
+                                    </Typography>
+                                    <Typography variant="body2">Price: ${(item.price / 100).toFixed(2)}</Typography>
+                                    <Box sx={{ display: 'flex' }}>
+                                        <Typography variant="body2">Quantity: </Typography>
+                                        <LoadingButton
+                                            sx={{ minWidth: '32px' }}
                                             loading={status === 'pendingRemoveItem' + item.productId + 'rem'}
                                             onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: 1, operation: 'rem' }))}>
                                             <Remove />
@@ -51,24 +103,30 @@ function BasketPage() {
                                         {item.quantity}
 
                                         <LoadingButton
+                                            sx={{ minWidth: '32px' }}
                                             loading={status === 'pendingAddItem' + item.productId}
                                             onClick={() => dispatch(addItemToBasketAsync({ productId: item.productId }))}>
                                             <Add />
                                         </LoadingButton>
                                     </Box>
-                                </TableCell>
-                                <TableCell align="right">${(item.price / 100 * item.quantity).toFixed(2)}</TableCell>
-                                <TableCell align="right">
-                                    <LoadingButton
-                                        loading={status === 'pendingRemoveItem' + item.productId + 'del'}
-                                        onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: item.quantity, operation: 'del' }))}>
+                                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                                        Subtotal: ${(item.price / 100 * item.quantity).toFixed(2)}
+                                    </Typography>
+                                </CardContent>
+
+                                {/* Trash Button */}
+                                <Box>
+                                    <IconButton
+                                        color="error"
+                                        onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: item.quantity, operation: 'del' }))}
+                                    >
                                         <Delete />
-                                    </LoadingButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                                    </IconButton>
+                                </Box>
+                            </Card>
+                        )}
+                    </Box >
+                }
             </TableContainer >
             <Grid2 container sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Grid ></Grid>
