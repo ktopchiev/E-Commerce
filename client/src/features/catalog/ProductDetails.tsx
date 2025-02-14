@@ -49,8 +49,8 @@ function ProductDetails() {
             <Grid2 size={6}>
                 <img src={product.pictureUrl} alt={product.name} style={{ width: '100%' }} />
             </Grid2>
-            <Grid2 size={6}>
-                <Typography variant="h3">{product.name}</Typography>
+            <Grid2 size={{ xs: 12, sm: 6 }}>
+                <Typography sx={{ typography: { xs: 'h6', md: 'h3' } }}>{product.name}</Typography>
                 <Divider sx={{ mb: 2 }} />
                 <TableContainer>
                     <Table>
