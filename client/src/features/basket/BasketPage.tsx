@@ -1,4 +1,4 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2, Button, useMediaQuery, Card, CardContent, CardMedia, IconButton } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2, Button, useMediaQuery, Card, CardContent, CardMedia, IconButton, Container } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { Add, Delete, Remove } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
@@ -19,8 +19,9 @@ function BasketPage() {
 
     return (
         <>
-            <TableContainer component={Paper} sx={{ display: "flex", justifyContent: "center" }}>
-                {!isMobile ?
+
+            {!isMobile ?
+                <TableContainer component={Paper} sx={{ display: "flex", justifyContent: "center" }}>
                     <Table sx={{ minWidth: 600 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -73,21 +74,28 @@ function BasketPage() {
                                 </TableRow>
                             ))}
                         </TableBody>
-                    </Table> :
-                    <Box>
+                    </Table>
+                </TableContainer >
+                :
+                // Mobile view card
+                <Container sx={{ p: 0 }}>
+                    <Box sx={{ overflow: 'hidden', p: 0 }}>
                         {basket.items.map(item =>
-                            <Card sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 2, boxShadow: 3, maxWidth: 500, mb: 1 }}>
+                            <Card
+                                key={item.productId}
+                                sx={{ display: "flex", alignItems: "center", borderRadius: 2, boxShadow: 3, maxWidth: 670, mb: 1 }}
+                            >
                                 {/* Product Image */}
                                 <CardMedia
                                     component="img"
                                     image={item.pictureUrl}
                                     alt={item.name}
-                                    sx={{ width: 100, height: 100, objectFit: "cover", borderRadius: 1 }}
+                                    sx={{ width: 70, height: 70, objectFit: "cover", borderRadius: 5, pl: 1 }}
                                 />
 
                                 {/* Product Details */}
                                 <CardContent sx={{ flex: "1", display: "flex", flexDirection: "column", gap: 1 }}>
-                                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                                         {item.name}
                                     </Typography>
                                     <Typography variant="body2">Price: ${(item.price / 100).toFixed(2)}</Typography>
@@ -115,10 +123,14 @@ function BasketPage() {
                                 </CardContent>
 
                                 {/* Trash Button */}
-                                <Box>
+                                <Box sx={{ pr: 3 }}>
                                     <IconButton
                                         color="error"
-                                        onClick={() => dispatch(removeItemFromBasketAsync({ productId: item.productId, quantity: item.quantity, operation: 'del' }))}
+                                        onClick={() => dispatch(removeItemFromBasketAsync({
+                                            productId: item.productId,
+                                            quantity: item.quantity,
+                                            operation: 'del'
+                                        }))}
                                     >
                                         <Delete />
                                     </IconButton>
@@ -126,8 +138,8 @@ function BasketPage() {
                             </Card>
                         )}
                     </Box >
-                }
-            </TableContainer >
+                </Container>
+            }
             <Grid2 container sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Grid ></Grid>
                 <Grid >
