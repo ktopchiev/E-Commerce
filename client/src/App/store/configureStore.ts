@@ -7,7 +7,6 @@ import { accountSlice } from "../../features/account/accountSlice";
 
 export const store = configureStore({
     reducer: {
-        counter: counterSlice.reducer,
         basket: basketSlice.reducer,
         catalog: catalogSlice.reducer,
         account: accountSlice.reducer
