@@ -13,7 +13,7 @@ export default function BottomNav() {
     const { user } = useAppSelector(state => state.account);
 
     return (
-        <Paper sx={{ position: 'fixed', bottom: 0, width: '100%', zIndex: 100 }} elevation={3}>
+        <Paper sx={{ position: 'fixed', bottom: 0, width: '100%', zIndex: 100, mt: 5 }} elevation={3}>
             <BottomNavigation sx={{ width: 'auto' }} >
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <BottomNavigationAction

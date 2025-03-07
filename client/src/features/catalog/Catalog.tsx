@@ -74,7 +74,7 @@ function Catalog() {
                 </Grid2>
                 <Grid2 size={3}>
                 </Grid2>
-                <Grid2 size={{ xs: 12, md: 9 }} sx={{ marginBottom: 2 }}>
+                <Grid2 size={{ xs: 12, md: 9 }} sx={{ mt: 2, mb: 10 }}>
                     {metaData &&
                         <AppPagination
                             metaData={metaData}
