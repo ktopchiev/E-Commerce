@@ -1,13 +1,13 @@
 import ProductList from "./ProductList";
 import { useEffect } from "react";
-import LoadingComponent from "../../App/layout/LoadingComponent";
+import LoadingComponent from "../../App/layout/common/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
 import { fetchFiltersAsync, fetchProductsAsync, productsSelectors, setPageNumber, setProductParams } from "./catalogSlice";
-import { Grid2, Paper } from "@mui/material";
-import ProductSearch from "./ProductSearch";
-import RadioButtonGroup from "../../App/components/RadioButtonGroup";
-import CheckboxButtons from "../../App/components/CheckboxButtons";
-import AppPagination from "../../App/components/AppPagination";
+import { Grid2, Paper, useMediaQuery } from "@mui/material";
+import ProductSearch from "../../App/common/ProductSearch";
+import RadioButtonGroup from "../../App/common/RadioButtonGroup";
+import CheckboxButtons from "../../App/common/CheckboxButtons";
+import AppPagination from "../../App/common/AppPagination";
 
 function Catalog() {
 
@@ -31,38 +31,44 @@ function Catalog() {
 
     }, [dispatch, filtersLoaded])
 
+    const isMobile = useMediaQuery("(max-width: 670px)");
+
     if (!filtersLoaded) return <LoadingComponent message="Loading products..." />
+
     return (
         <>
-            <Grid2 container columnSpacing={4}>
-                <Grid2 sx={{ display: { xs: 'none', md: 'block' } }} size={{ md: 3, xs: 'auto' }}>
-                    <Paper sx={{ mb: 2 }}>
-                        <ProductSearch />
-                    </Paper>
-                    <Paper sx={{ mb: 2, p: 2 }}>
-                        <RadioButtonGroup
-                            selectedValue={productParams.orderBy}
-                            options={sortOptions}
-                            onChange={(e) => dispatch(setProductParams({ orderBy: e.target.value }))}
-                        />
-                    </Paper>
-                    <Paper sx={{ mb: 2, p: 2 }}>
-                        <CheckboxButtons
-                            items={brands}
-                            checked={productParams.brands}
-                            onChange={(items: string[]) => dispatch(setProductParams({ brands: items }))}
-                            label="Brands"
-                        />
-                    </Paper>
-                    <Paper sx={{ mb: 2, p: 2 }}>
-                        <CheckboxButtons
-                            items={types}
-                            checked={productParams.types}
-                            onChange={(items: string[]) => dispatch(setProductParams({ types: items }))}
-                            label="Types"
-                        />
-                    </Paper>
-                </Grid2>
+            <Grid2 container columnSpacing={2}>
+                {
+                    !isMobile &&
+                    <Grid2 size={{ md: 3 }}>
+                        <Paper sx={{ mb: 2 }}>
+                            <ProductSearch />
+                        </Paper>
+                        <Paper sx={{ mb: 2, p: 2 }}>
+                            <RadioButtonGroup
+                                selectedValue={productParams.orderBy}
+                                options={sortOptions}
+                                onChange={(e) => dispatch(setProductParams({ orderBy: e.target.value }))}
+                            />
+                        </Paper>
+                        <Paper sx={{ mb: 2, p: 2 }}>
+                            <CheckboxButtons
+                                items={brands}
+                                checked={productParams.brands}
+                                onChange={(items: string[]) => dispatch(setProductParams({ brands: items }))}
+                                label="Brands"
+                            />
+                        </Paper>
+                        <Paper sx={{ mb: 2, p: 2 }}>
+                            <CheckboxButtons
+                                items={types}
+                                checked={productParams.types}
+                                onChange={(items: string[]) => dispatch(setProductParams({ types: items }))}
+                                label="Types"
+                            />
+                        </Paper>
+                    </Grid2>
+                }
                 <Grid2 sx={{ display: { xs: 'block' } }} size={{ xs: 12, md: 9 }}>
                     <ProductList products={products} />
                 </Grid2>

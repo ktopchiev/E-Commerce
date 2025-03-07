@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 
 internal class Program
 {
@@ -114,6 +115,7 @@ internal class Program
 
         if (app.Environment.IsDevelopment())
         {
+            app.MapScalarApiReference(); // scalar/v1
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

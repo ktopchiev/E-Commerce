@@ -4,7 +4,9 @@ import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
 import { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
-import UserMenu from "./components/UserMenu";
+import UserMenu from "./common/UserMenu";
+import ProductSearch from "../common/ProductSearch";
+import { useScreenSize } from "../hooks/useScreenSize";
 
 const midLinks = [
     { title: 'catalog', path: '/catalog' },
@@ -42,6 +44,8 @@ function Header({ darkMode, handleDarkMode }: Props) {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const screenSize = useScreenSize();
 
     return (
         <AppBar position="static">
@@ -96,7 +100,7 @@ function Header({ darkMode, handleDarkMode }: Props) {
                             to='/'
                             sx={navStyles}
                         >
-                            E-Commerce
+                            {screenSize == "xs" ? "EC" : "E - Commerce"}
                         </Typography>
                         <IconButton size="large" onClick={handleDarkMode}>
                             {darkMode ?
@@ -105,8 +109,11 @@ function Header({ darkMode, handleDarkMode }: Props) {
                             }
                         </IconButton>
                     </Box>
+                    <Box sx={{ display: { md: 'none' } }}>
+                        <ProductSearch />
+                    </Box>
                 </Box>
-
+                {/*NavMenu on large screen */}
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                     <List sx={{ display: 'flex' }}>
                         {midLinks.map(({ title, path }) =>
@@ -123,7 +130,7 @@ function Header({ darkMode, handleDarkMode }: Props) {
                     </List>
                 </Box>
 
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                     <IconButton component={Link} to={'/basket'} sx={{ color: 'inherit' }}>
                         <Badge badgeContent={itemCount} color="error">
                             <ShoppingCartOutlined />

@@ -5,8 +5,9 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { signOut } from '../../../features/account/accountSlice';
 import { removeBasket } from '../../../features/basket/basketSlice';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import PersonIcon from '@mui/icons-material/Person';
 import { NavLink } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
 
 export default function UserMenu({ user }: any) {
 
@@ -33,6 +34,9 @@ export default function UserMenu({ user }: any) {
         }
     }
 
+    const isMobile = useMediaQuery('max-screen: 670px;');
+    const userMenuIconColor = isMobile ?? user ? 'success' : 'action';
+
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
@@ -48,7 +52,7 @@ export default function UserMenu({ user }: any) {
                 onClick={handleClick}
                 sx={{ typography: 'h6' }}
             >
-                <PersonOutlineIcon style={{ color: user ? 'white' : 'black' }}></PersonOutlineIcon>
+                <PersonIcon color={userMenuIconColor}></PersonIcon>
             </Button>
             {!user ?
                 <Menu

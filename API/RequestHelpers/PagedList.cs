@@ -1,10 +1,11 @@
-using API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.RequestHelpers
 {
+
     public class PagedList<T> : List<T>
     {
+        public MetaData MetaData { get; }
 
         public PagedList(List<T> items, int itemsCount, int pageNumber, int pageSize)
         {
@@ -18,8 +19,6 @@ namespace API.RequestHelpers
 
             AddRange(items);
         }
-
-        public MetaData MetaData { get; }
 
         public static async Task<PagedList<T>> ToPagedList(IQueryable<T> query, int pageNumber, int pageSize)
         {
