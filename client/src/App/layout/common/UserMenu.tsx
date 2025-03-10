@@ -7,12 +7,13 @@ import { signOut } from '../../../features/account/accountSlice';
 import { removeBasket } from '../../../features/basket/basketSlice';
 import PersonIcon from '@mui/icons-material/Person';
 import { NavLink } from 'react-router-dom';
-import { useMediaQuery } from '@mui/material';
+import { useScreenSize } from '../../hooks/useScreenSize';
+import { useAppSelector } from '../../store/configureStore';
 
-export default function UserMenu({ user }: any) {
+export default function UserMenu() {
 
     const dispatch = useDispatch();
-
+    const { user } = useAppSelector(state => state.account);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -34,8 +35,8 @@ export default function UserMenu({ user }: any) {
         }
     }
 
-    const isMobile = useMediaQuery('max-screen: 670px;');
-    const userMenuIconColor = isMobile ?? user ? 'success' : 'action';
+    const screenSize = useScreenSize();
+    const userMenuIconColor = screenSize === "xs" && user ? 'success' : 'action';
 
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
@@ -43,7 +44,6 @@ export default function UserMenu({ user }: any) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
 
     return (
         <div>

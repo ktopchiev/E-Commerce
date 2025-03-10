@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import LoadingComponent from "../../App/layout/common/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
 import { fetchFiltersAsync, fetchProductsAsync, productsSelectors, setPageNumber, setProductParams } from "./catalogSlice";
-import { Grid2, Paper, useMediaQuery } from "@mui/material";
+import { Grid2, Paper } from "@mui/material";
 import ProductSearch from "../../App/common/ProductSearch";
 import RadioButtonGroup from "../../App/common/RadioButtonGroup";
 import CheckboxButtons from "../../App/common/CheckboxButtons";
@@ -31,16 +31,14 @@ function Catalog() {
 
     }, [dispatch, filtersLoaded])
 
-    const isMobile = useMediaQuery("(max-width: 670px)");
-
     if (!filtersLoaded) return <LoadingComponent message="Loading products..." />
 
     return (
         <>
             <Grid2 container columnSpacing={2}>
                 {
-                    !isMobile &&
-                    <Grid2 size={{ md: 3 }}>
+
+                    <Grid2 size={{ md: 3 }} sx={{ display: { xs: 'none', md: 'block' } }}>
                         <Paper sx={{ mb: 2 }}>
                             <ProductSearch />
                         </Paper>

@@ -1,16 +1,17 @@
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
-import { Box, Paper } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Badge, Box, IconButton, Paper } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import UserMenu from './common/UserMenu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useAppSelector } from '../store/configureStore';
 
 export default function BottomNav() {
 
+    const { basket } = useAppSelector(state => state.basket);
+    const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
     const navigate = useNavigate();
-    const { user } = useAppSelector(state => state.account);
 
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, width: '100%', zIndex: 100, mt: 5 }} elevation={3}>
@@ -22,13 +23,12 @@ export default function BottomNav() {
                         icon={<HomeIcon />}
                         onClick={() => navigate("/")}
                     />
-                    <BottomNavigationAction
-                        label="Favorites"
-                        value="favorites"
-                        icon={<ShoppingCartIcon />}
-                        onClick={() => navigate('/basket')}
-                    />
-                    <UserMenu user={user} />
+                    <IconButton component={Link} to={'/basket'} sx={{ color: 'action' }}>
+                        <Badge badgeContent={itemCount} color="error">
+                            <ShoppingCartIcon />
+                        </Badge>
+                    </IconButton>
+                    <UserMenu />
                 </Box>
             </BottomNavigation>
         </Paper >

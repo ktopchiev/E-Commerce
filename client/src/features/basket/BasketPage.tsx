@@ -1,4 +1,7 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2, Button, useMediaQuery, Card, CardContent, CardMedia, IconButton, Container } from "@mui/material";
+import {
+    TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box, Typography, Grid2,
+    Button, Card, CardContent, CardMedia, IconButton, Container
+} from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { Add, Delete, Remove } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
@@ -6,21 +9,21 @@ import BasketSummary from "./BasketSummary";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
 import { addItemToBasketAsync, removeItemFromBasketAsync } from "./basketSlice";
+import { useScreenSize } from "../../App/hooks/useScreenSize";
 
 function BasketPage() {
 
     const { basket, status } = useAppSelector(state => state.basket);
     const dispatch = useAppDispatch();
 
-    const isMobile = useMediaQuery("(max-width:670px)");
+    const screenSize = useScreenSize();
 
-    if (!basket) return <Typography variant='h3'>Your basket is empty</Typography>
+    if (!basket) return <Typography variant={screenSize === "xs" ? "body2" : "h6"}>Your basket is empty</Typography>
 
 
     return (
         <>
-
-            {!isMobile ?
+            {screenSize !== "xs" ?
                 <TableContainer component={Paper} sx={{ display: "flex", justifyContent: "center" }}>
                     <Table sx={{ minWidth: 600 }} aria-label="simple table">
                         <TableHead>

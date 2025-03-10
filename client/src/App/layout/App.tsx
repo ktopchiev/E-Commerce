@@ -1,4 +1,4 @@
-import { Container, createTheme, CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
+import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Header from "./Header";
 import { useCallback, useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
@@ -10,6 +10,7 @@ import { fetchBasketAsync } from "../../features/basket/basketSlice";
 import { setCurrentUser } from "../../features/account/accountSlice";
 import HomePage from "../../features/home/HomePage";
 import BottomNav from "./BottomNav";
+import { useScreenSize } from "../hooks/useScreenSize";
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ function App() {
 		},
 	});
 
-	const isMobile = useMediaQuery("(max-width: 670px)");
+	const screenSize = useScreenSize();
 
 	function handleDarkMode() {
 		setDarkMode(!darkMode);
@@ -52,9 +53,7 @@ function App() {
 				<ToastContainer position="bottom-right" hideProgressBar theme="colored" />
 				<CssBaseline />
 				<Header darkMode={darkMode} handleDarkMode={handleDarkMode} />
-				{isMobile &&
-					<BottomNav></BottomNav>
-				}
+				{screenSize === "sm" || screenSize === "xs" ? <BottomNav></BottomNav> : null}
 				{loading ?
 					<LoadingComponent message="Initializing app..." />
 					: location.pathname === '/' ? <HomePage />

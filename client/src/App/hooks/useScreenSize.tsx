@@ -1,21 +1,19 @@
 import { useState, useEffect } from "react";
 
 export const useScreenSize = () => {
-    const [screenSize, setScreenSize] = useState<"xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "">("");
+    const [screenSize, setScreenSize] = useState<"xs" | "sm" | "md" | "lg" | "xl" | "">("");
 
     const handleResize = () => {
-        if (window.innerWidth < 640) {
+        if (window.innerWidth < 600) {
             setScreenSize("xs");
-        } else if (window.innerWidth >= 640 && window.innerWidth < 768) {
+        } else if (window.innerWidth >= 600 && window.innerWidth < 900) {
             setScreenSize("sm");
-        } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        } else if (window.innerWidth >= 900 && window.innerWidth < 1200) {
             setScreenSize("md");
-        } else if (window.innerWidth >= 1024 && window.innerWidth < 1280) {
+        } else if (window.innerWidth >= 1200 && window.innerWidth < 1536) {
             setScreenSize("lg");
-        } else if (window.innerWidth >= 1280 && window.innerWidth < 1536) {
-            setScreenSize("xl");
         } else if (window.innerWidth >= 1536) {
-            setScreenSize("2xl");
+            setScreenSize("xl");
         }
     };
 
