@@ -1,13 +1,14 @@
-import ProductList from "./ProductList";
+import ProductList from "../components/ProductList";
 import { useEffect } from "react";
-import LoadingComponent from "../../App/layout/common/LoadingComponent";
-import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
-import { fetchFiltersAsync, fetchProductsAsync, productsSelectors, setPageNumber, setProductParams } from "./catalogSlice";
+import LoadingComponent from "../../../App/layout/common/LoadingComponent";
+import { useAppDispatch, useAppSelector } from "../../../App/store/configureStore";
+import { fetchFiltersAsync, fetchProductsAsync, productsSelectors, setPageNumber, setProductParams } from "../catalogSlice";
 import { Grid2, Paper } from "@mui/material";
-import ProductSearch from "../../App/common/ProductSearch";
-import RadioButtonGroup from "../../App/common/RadioButtonGroup";
-import CheckboxButtons from "../../App/common/CheckboxButtons";
-import AppPagination from "../../App/common/AppPagination";
+import ProductSearch from "../../../App/common/ProductSearch";
+import RadioButtonGroup from "../../../App/common/RadioButtonGroup";
+import CheckboxButtons from "../../../App/common/CheckboxButtons";
+import AppPagination from "../../../App/common/AppPagination";
+import FilterButtonGroup from "../components/FilterButtonGroup";
 
 function Catalog() {
 
@@ -35,8 +36,7 @@ function Catalog() {
 
     return (
         <>
-            <Grid2 container columnSpacing={2}>
-
+            <Grid2 container columnSpacing={4}>
                 {/**Search, Sort and filter middle screen and up*/}
                 <Grid2 size={{ md: 3 }} sx={{ display: { xs: 'none', md: 'block' } }}>
                     <Paper sx={{ mb: 2 }}>
@@ -67,7 +67,9 @@ function Catalog() {
                     </Paper>
                 </Grid2>
 
-                <Grid2></Grid2>
+                <Grid2 sx={{ display: { xs: 'block', md: 'none', justifyItems: 'center' }, mb: 2 }} size={12}>
+                    <FilterButtonGroup />
+                </Grid2>
 
                 <Grid2 sx={{ display: { xs: 'block' } }} size={{ xs: 12, md: 9 }}>
                     <ProductList products={products} />

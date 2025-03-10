@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom"
 import { Divider, Grid2, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
-import NotFound from "../../App/errors/NotFound";
-import LoadingComponent from "../../App/layout/common/LoadingComponent";
+import NotFound from "../../../App/errors/NotFound";
+import LoadingComponent from "../../../App/layout/common/LoadingComponent";
 import { LoadingButton } from "@mui/lab";
-import { useAppDispatch, useAppSelector } from "../../App/store/configureStore";
-import { addItemToBasketAsync } from "../basket/basketSlice";
-import { fetchProductAsync, productsSelectors } from "./catalogSlice";
+import { useAppDispatch, useAppSelector } from "../../../App/store/configureStore";
+import { addItemToBasketAsync } from "../../basket/basketSlice";
+import { fetchProductAsync, productsSelectors } from "../catalogSlice";
 
 function ProductDetails() {
 

@@ -1,16 +1,16 @@
 import { Grid2 } from "@mui/material"
 import ProductCard from "./ProductCard"
-import Props from "../../App/interfaces/Props"
-import { useAppSelector } from "../../App/store/configureStore"
+import Props from "../../../App/interfaces/Props"
+import { useAppSelector } from "../../../App/store/configureStore"
 import ProductCardSkeleton from "./ProductCardSkeleton";
 
 function ProductList({ products }: Props) {
     const { productsLoaded } = useAppSelector(state => state.catalog);
     return (
 
-        <Grid2 container spacing={{ xs: 2, md: 4 }}>
+        <Grid2 container spacing={{ xs: 2, sm: 3, md: 4 }}>
             {products.map((product) => (
-                <Grid2 size={{ xs: 6, sm: 6, md: 4 }} key={product.id}>
+                <Grid2 size={{ xs: 6, sm: 4, md: 4 }} key={product.id}>
                     {!productsLoaded ?
                         (<ProductCardSkeleton />) :
                         (< ProductCard product={product} />)

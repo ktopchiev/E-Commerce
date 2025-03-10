@@ -21,6 +21,7 @@ export default function ProductSearch() {
             <TextField
                 label={screenSize === "xs" || screenSize === "sm" ? null : "Search products"}
                 variant="outlined"
+                placeholder="Search product"
                 value={searchTerm || ''}
                 onChange={(event: any) => {
                     setSearchTerm(event.target.value);

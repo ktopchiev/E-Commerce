@@ -15,7 +15,7 @@ export default function BottomNav() {
 
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, width: '100%', zIndex: 100, mt: 5 }} elevation={3}>
-            <BottomNavigation sx={{ width: 'auto' }} >
+            <BottomNavigation>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <BottomNavigationAction
                         label="Home"

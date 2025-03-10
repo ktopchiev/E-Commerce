@@ -42,6 +42,7 @@ function App() {
 	});
 
 	const screenSize = useScreenSize();
+	const rootMarginTop = screenSize === "xs" ? 2 : 4;
 
 	function handleDarkMode() {
 		setDarkMode(!darkMode);
@@ -57,7 +58,7 @@ function App() {
 				{loading ?
 					<LoadingComponent message="Initializing app..." />
 					: location.pathname === '/' ? <HomePage />
-						: <Container sx={{ mt: 4 }}>
+						: <Container sx={{ mt: rootMarginTop }}>
 							<Outlet />
 						</Container>
 				}

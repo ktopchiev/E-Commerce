@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../layout/App";
 import AboutPage from "../../features/about/AboutPage";
-import Catalog from "../../features/catalog/Catalog";
-import ProductDetails from "../../features/catalog/ProductDetails";
+import Catalog from "../../features/catalog/page/Catalog";
+import ProductDetails from "../../features/catalog/components/ProductDetails";
 import ContactPage from "../../features/contact/ContactPage";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
