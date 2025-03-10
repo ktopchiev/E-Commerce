@@ -20,7 +20,6 @@ function BasketPage() {
 
     if (!basket) return <Typography variant={screenSize === "xs" ? "body2" : "h6"}>Your basket is empty</Typography>
 
-
     return (
         <>
             {screenSize !== "xs" ?

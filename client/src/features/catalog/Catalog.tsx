@@ -36,37 +36,39 @@ function Catalog() {
     return (
         <>
             <Grid2 container columnSpacing={2}>
-                {
 
-                    <Grid2 size={{ md: 3 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-                        <Paper sx={{ mb: 2 }}>
-                            <ProductSearch />
-                        </Paper>
-                        <Paper sx={{ mb: 2, p: 2 }}>
-                            <RadioButtonGroup
-                                selectedValue={productParams.orderBy}
-                                options={sortOptions}
-                                onChange={(e) => dispatch(setProductParams({ orderBy: e.target.value }))}
-                            />
-                        </Paper>
-                        <Paper sx={{ mb: 2, p: 2 }}>
-                            <CheckboxButtons
-                                items={brands}
-                                checked={productParams.brands}
-                                onChange={(items: string[]) => dispatch(setProductParams({ brands: items }))}
-                                label="Brands"
-                            />
-                        </Paper>
-                        <Paper sx={{ mb: 2, p: 2 }}>
-                            <CheckboxButtons
-                                items={types}
-                                checked={productParams.types}
-                                onChange={(items: string[]) => dispatch(setProductParams({ types: items }))}
-                                label="Types"
-                            />
-                        </Paper>
-                    </Grid2>
-                }
+                {/**Search, Sort and filter middle screen and up*/}
+                <Grid2 size={{ md: 3 }} sx={{ display: { xs: 'none', md: 'block' } }}>
+                    <Paper sx={{ mb: 2 }}>
+                        <ProductSearch />
+                    </Paper>
+                    <Paper sx={{ mb: 2, p: 2 }}>
+                        <RadioButtonGroup
+                            selectedValue={productParams.orderBy}
+                            options={sortOptions}
+                            onChange={(e) => dispatch(setProductParams({ orderBy: e.target.value }))}
+                        />
+                    </Paper>
+                    <Paper sx={{ mb: 2, p: 2 }}>
+                        <CheckboxButtons
+                            items={brands}
+                            checked={productParams.brands}
+                            onChange={(items: string[]) => dispatch(setProductParams({ brands: items }))}
+                            label="Brands"
+                        />
+                    </Paper>
+                    <Paper sx={{ mb: 2, p: 2 }}>
+                        <CheckboxButtons
+                            items={types}
+                            checked={productParams.types}
+                            onChange={(items: string[]) => dispatch(setProductParams({ types: items }))}
+                            label="Types"
+                        />
+                    </Paper>
+                </Grid2>
+
+                <Grid2></Grid2>
+
                 <Grid2 sx={{ display: { xs: 'block' } }} size={{ xs: 12, md: 9 }}>
                     <ProductList products={products} />
                 </Grid2>
