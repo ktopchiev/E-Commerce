@@ -1,12 +1,14 @@
-import { Typography, Button, Card, CardActions, CardContent, CardMedia, Avatar, CardHeader, CardActionArea } from "@mui/material"
+import { Typography, Card, CardActions, CardContent, CardMedia, Avatar, CardHeader, CardActionArea } from "@mui/material"
 import { Product } from "../../../App/models/product"
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LoadingButton } from '@mui/lab';
-import { AddShoppingCart, VisibilityOutlined } from "@mui/icons-material";
+import { AddShoppingCart } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../../App/store/configureStore";
 import { addItemToBasketAsync } from "../../basket/basketSlice";
 import { useScreenSize } from "../../../App/hooks/useScreenSize";
 import { minimizeTitle } from "../../../App/util/util";
+import DoneIcon from '@mui/icons-material/Done';
+import React from "react";
 
 interface ProductCardProps {
     product: Product;
@@ -60,21 +62,34 @@ function ProductCard({ product }: ProductCardProps) {
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
+            <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <LoadingButton
                     loading={status === 'pendingAddItem' + product.id}
-                    onClick={() => dispatch(addItemToBasketAsync({ productId: product.id }))}
+                    onClick={() => {
+                        dispatch(addItemToBasketAsync({ productId: product.id }));
+                    }}
                     size="small"
+                    sx={{
+                        backgroundColor: "rgb(10, 80, 221)", // Keep background
+                        "&.MuiLoadingButton-loading": {
+                            backgroundColor: "rgba(10, 80, 221)", // Slightly transparent to show spinner
+                        },
+                        "& .MuiCircularProgress-root": {
+                            color: "blue", // Make sure spinner is visible
+                        },
+                        minHeight: "32px"
+                    }}
+                    loadingIndicator={<DoneIcon sx={{
+                        color: 'rgb(100, 253, 153)',
+                        animation: "spin 0.5s linear", // Add spin animation
+                        "@keyframes spin": {
+                            "0%": { transform: "rotate(0deg)" },
+                            "100%": { transform: "rotate(360deg)" }
+                        }
+                    }} />}
                 >
-                    <AddShoppingCart />
+                    {status !== "pendingAddItem" + product.id && < AddShoppingCart sx={{ color: 'white' }} />}
                 </LoadingButton>
-                <Button
-                    component={Link}
-                    to={`${product.id}`}
-                    size="small"
-                >
-                    <VisibilityOutlined />
-                </Button>
             </CardActions>
 
         </Card >
