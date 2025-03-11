@@ -9,6 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { NavLink } from 'react-router-dom';
 import { useScreenSize } from '../../hooks/useScreenSize';
 import { useAppSelector } from '../../store/configureStore';
+import { Divider } from '@mui/material';
 
 export default function UserMenu() {
 
@@ -36,7 +37,7 @@ export default function UserMenu() {
     }
 
     const screenSize = useScreenSize();
-    const userMenuIconColor = screenSize === "xs" && user ? 'success' : 'action';
+    const userMenuIconColor = screenSize === "xs" && user ? 'primary' : 'action';
 
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
@@ -88,6 +89,8 @@ export default function UserMenu() {
                         'aria-labelledby': 'basic-button',
                     }}
                 >
+                    <MenuItem disabled={true}>{user.email}</MenuItem>
+                    <Divider />
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleClose}>My orders</MenuItem>
                     <MenuItem onClick={() => {
