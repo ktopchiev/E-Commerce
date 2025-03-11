@@ -8,7 +8,6 @@ import { addItemToBasketAsync } from "../../basket/basketSlice";
 import { useScreenSize } from "../../../App/hooks/useScreenSize";
 import { minimizeTitle } from "../../../App/util/util";
 import DoneIcon from '@mui/icons-material/Done';
-import React from "react";
 
 interface ProductCardProps {
     product: Product;
@@ -81,7 +80,7 @@ function ProductCard({ product }: ProductCardProps) {
                     }}
                     loadingIndicator={<DoneIcon sx={{
                         color: 'rgb(100, 253, 153)',
-                        animation: "spin 0.5s linear", // Add spin animation
+                        animation: "spin 0.7s linear", // Add spin animation
                         "@keyframes spin": {
                             "0%": { transform: "rotate(0deg)" },
                             "100%": { transform: "rotate(360deg)" }

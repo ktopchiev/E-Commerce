@@ -1,15 +1,13 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import SortIcon from '@mui/icons-material/Sort';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import RadioButtonGroup from '../../../App/common/RadioButtonGroup';
 import { useAppDispatch, useAppSelector } from '../../../App/store/configureStore';
 import { setProductParams } from '../catalogSlice';
+import { Box, Menu, MenuItem, useTheme } from '@mui/material';
+import CheckboxButtons from '../../../App/common/CheckboxButtons';
 
 const sortOptions = [
     { value: 'name', label: "Alphabetical" },
@@ -18,88 +16,95 @@ const sortOptions = [
 ];
 
 export default function FilterButtonGroup() {
-    const [open, setOpen] = React.useState(false);
-    // const [options, setOptions] = React.useState<object[]>([]);
-    const anchorRef = React.useRef<HTMLDivElement>(null);
-    // const [selectedIndex, setSelectedIndex] = React.useState(1);
     const dispatch = useAppDispatch();
-    const { productParams } = useAppSelector(state => state.catalog);
-
-    // const handleMenuItemClick = (
-    //     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    //     index: number,
-    // ) => {
-    //     setSelectedIndex(index);
-    //     setOpen(false);
-    // };
-
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+    const { productParams, types, brands } = useAppSelector(state => state.catalog);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = (event: Event) => {
-        if (
-            anchorRef.current &&
-            anchorRef.current.contains(event.target as HTMLElement)
-        ) {
-            return;
-        }
-
-        setOpen(false);
+    const handleClose = () => {
+        setAnchorEl(null);
     };
+
+    const theme = useTheme();
 
     return (
         <React.Fragment>
             <ButtonGroup
-                variant="contained"
-                ref={anchorRef}
+                variant="outlined"
                 aria-label="Button group with a nested filter and sort menu"
                 size="small"
+                sx={{ backgroundColor: theme.palette.mode === "dark" ? '#1f1f1f' : 'rgb(204, 205, 206)', borderRadius: '20px' }}
             >
-                <Button onClick={handleToggle}>
+                <Button
+                    id="sort-button"
+                    aria-controls={open ? 'sort-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    sx={{ color: theme.palette.mode === "dark" ? "rgb(254, 254, 254)" : "rgb(48, 47, 47)", border: 'none' }}
+                >
                     <SortIcon />
                     Sort
                 </Button>
+                <Box sx={{ width: "1px", backgroundColor: "gray", height: "24px", alignSelf: "center" }} />
+                <Menu
+                    id="sort-menu"
+                    anchorEl={anchorEl}
+                    open={anchorEl?.id.includes("sort") || false}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'sort-button',
+                    }}
+                >
+                    <MenuItem>
+                        <RadioButtonGroup
+                            selectedValue={productParams.orderBy}
+                            options={sortOptions}
+                            onChange={(e) => dispatch(setProductParams({ orderBy: e.target.value }))}
+                        />
+                    </MenuItem>
+                </Menu>
                 <Button
-                    size="small"
-                    aria-controls={open ? 'split-button-menu' : undefined}
+                    id="filter-button"
+                    aria-controls={open ? 'filter-menu' : undefined}
                     aria-expanded={open ? 'true' : undefined}
-                    aria-label="select merge strategy"
-                    aria-haspopup="menu"
-                    onClick={handleToggle}   
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    sx={{ color: theme.palette.mode === "dark" ? "rgb(254, 254, 254)" : "rgb(48, 47, 47)", border: "none" }}
                 >
                     <FilterAltIcon />
                     Filter
                 </Button>
+                <Menu
+                    id="filter-menu"
+                    anchorEl={anchorEl}
+                    open={anchorEl?.id.includes("filter") || false}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'filter-button',
+                    }}
+                >
+                    <MenuItem>
+                        <CheckboxButtons
+                            items={brands}
+                            checked={productParams.brands}
+                            onChange={(items: string[]) => dispatch(setProductParams({ brands: items }))}
+                            label="Brands"
+                        />
+                    </MenuItem>
+                    <MenuItem>
+                        <CheckboxButtons
+                            items={types}
+                            checked={productParams.types}
+                            onChange={(items: string[]) => dispatch(setProductParams({ types: items }))}
+                            label="Types"
+                        />
+                    </MenuItem>
+                </Menu>
             </ButtonGroup>
-            <Popper
-                sx={{ zIndex: 1 }}
-                open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                transition
-                disablePortal
-            >
-                {({ TransitionProps, placement }) => (
-                    <Grow
-                        {...TransitionProps}
-                        style={{
-                            transformOrigin:
-                                placement === 'bottom' ? 'center top' : 'center bottom',
-                        }}
-                    >
-                        <Paper>
-                            <ClickAwayListener onClickAway={handleClose}>
-                                <RadioButtonGroup
-                                    selectedValue={productParams.orderBy}
-                                    options={sortOptions}
-                                    onChange={(e) => dispatch(setProductParams({ orderBy: e.target.value }))}
-                                />
-                            </ClickAwayListener>
-                        </Paper>
-                    </Grow>
-                )}
-            </Popper>
         </React.Fragment >
     );
 }

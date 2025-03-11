@@ -67,7 +67,7 @@ function Catalog() {
                     </Paper>
                 </Grid2>
 
-                <Grid2 sx={{ display: { xs: 'block', md: 'none', justifyItems: 'center' }, mb: 2 }} size={12}>
+                <Grid2 sx={{ display: { xs: 'flex', md: 'none', justifyContent: 'center' }, mb: 2 }} size={12}>
                     <FilterButtonGroup />
                 </Grid2>
 
