@@ -45,7 +45,7 @@ function ProductDetails() {
     if (!product) return <NotFound />
 
     return (
-        <Grid2 container spacing={6}>
+        <Grid2 container spacing={6} sx={{ mb: 10 }}>
             <Grid2 size={6}>
                 <img src={product.pictureUrl} alt={product.name} style={{ width: '100%' }} />
             </Grid2>
@@ -91,6 +91,7 @@ function ProductDetails() {
                             }}
                             fullWidth
                             onChange={handleChangeQuantity}
+                            inputMode="numeric"
                         />
 
                     </Grid2>

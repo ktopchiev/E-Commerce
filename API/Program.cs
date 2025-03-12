@@ -124,10 +124,10 @@ internal class Program
         }
         else
         {
-            //Serve static files(wwwroot)
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }
+
 
         app.UseCors(opt =>
         {
@@ -139,10 +139,8 @@ internal class Program
 
         app.MapControllers();
 
-        if (!app.Environment.IsDevelopment())
-        {
-            app.MapFallbackToController("Index", "Fallback");
-        }
+        if (!app.Environment.IsDevelopment()) app.MapFallbackToController("Index", "Fallback");
+
 
         var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<StoreContext>();

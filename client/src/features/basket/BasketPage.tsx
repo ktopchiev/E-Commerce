@@ -80,7 +80,7 @@ function BasketPage() {
                 </TableContainer >
                 :
                 // Mobile view card
-                <Container sx={{ p: 0 }}>
+                <Container sx={{ p: 0, mb: 2 }}>
                     <Box sx={{ overflow: 'hidden', p: 0 }}>
                         {basket.items.map(item =>
                             <Card
@@ -142,7 +142,7 @@ function BasketPage() {
                     </Box >
                 </Container>
             }
-            <Grid2 container sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Grid2 container sx={{ display: "flex", justifyContent: "flex-end", mb: 10 }}>
                 <Grid ></Grid>
                 <Grid >
                     <BasketSummary />
