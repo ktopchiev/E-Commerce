@@ -53,6 +53,7 @@ internal class Program
         {
             connString = builder.Configuration.GetConnectionString("DefaultConnection");
         }
+
         else
         {
             // Use connection string provided at runtime by FlyIO.
@@ -140,7 +141,6 @@ internal class Program
         app.MapControllers();
 
         if (!app.Environment.IsDevelopment()) app.MapFallbackToController("Index", "Fallback");
-
 
         var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
