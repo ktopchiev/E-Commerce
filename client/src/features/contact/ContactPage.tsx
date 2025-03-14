@@ -5,7 +5,7 @@ export default function ContactPage() {
 
     return (
         <>
-            <Typography variant="h6" sx={{ marginBottom: '20px' }}>Contact Page test here some changes</Typography>
+            <Typography variant="h6" sx={{ marginBottom: '20px' }}>Contact Page 123</Typography>
         </>
     )
 }
