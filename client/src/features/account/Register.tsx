@@ -60,7 +60,7 @@ export default function Register() {
     }
 
     return (
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{ mb: 10 }}>
             <Typography
                 component="h1"
                 variant="h4"
