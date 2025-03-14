@@ -5,6 +5,19 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'README.md'
+      - '**/*.md'
+      - '**/.gitignore'
+      - '**/.vscode/*'
+      - '**/.idea/*'
+      - '**/*.log'
+      - '**/*.tmp'
+      - 'node_modules/**'
+      - 'build/**'
+      - 'dist/**'
+      - 'coverage/**'
+      - '.env*'
 
 jobs:
   docker:
