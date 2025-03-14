@@ -17,10 +17,10 @@
 
 
 ## Tech Stack:
-•	Backend: ASP.NET Core, Entity Framework Core, PostgreSQL
+•	**Backend**: ASP.NET Core, Entity Framework Core, PostgreSQL
 
-•	Frontend: React, Redux, Material UI
+•	**Frontend**: React, Redux, Material UI
 
-•	Deployment: Docker, Fly.io
+•	**Deployment**: Docker, Fly.io, GitHub Actions
 
 ### Designed for scalability, state management, and smooth deployment. 🚀
