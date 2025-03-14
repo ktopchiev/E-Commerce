@@ -36,7 +36,10 @@ export default function FilterButtonGroup() {
                 variant="outlined"
                 aria-label="Button group with a nested filter and sort menu"
                 size="small"
-                sx={{ backgroundColor: theme.palette.mode === "dark" ? '#1f1f1f' : 'rgb(204, 205, 206)', borderRadius: '20px' }}
+                sx={{
+                    backgroundColor: theme.palette.mode === "dark" ? '#1f1f1f' : 'rgb(204, 205, 206)',
+                    borderRadius: '20px'
+                }}
             >
                 <Button
                     id="sort-button"
