@@ -24,4 +24,3 @@
 •	**Deployment**: Docker, Fly.io, GitHub Actions
 
 ### Designed for scalability, state management, and smooth deployment. 🚀
-test
