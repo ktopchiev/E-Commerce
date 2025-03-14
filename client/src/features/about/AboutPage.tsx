@@ -1,7 +1,7 @@
 function AboutPage() {
     return (
         <div>
-            Another test
+            Another test 1
         </div>
     )
 }
