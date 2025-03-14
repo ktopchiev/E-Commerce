@@ -31,8 +31,6 @@ jobs:
     name: Deploy app to Fly.io
     runs-on: ubuntu-latest
     steps:
-      - name: Git Clone
-        uses: actions/checkout@v4
       - name: Deploy to Fly.io
         uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy
