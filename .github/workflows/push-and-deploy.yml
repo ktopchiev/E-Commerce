@@ -23,7 +23,6 @@ jobs:
   docker:
     name: Docker build and push
     runs-on: ubuntu-latest
-    concurrency: deploy-group
     steps:
       -
         name: Login to Docker Hub
@@ -44,7 +43,6 @@ jobs:
   deploy:
     name: Deploy app to Fly.io
     runs-on: ubuntu-latest
-    concurrency: deploy-group
     steps:
       -
         name: Deploy to Fly.io
