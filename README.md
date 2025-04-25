@@ -1,6 +1,7 @@
 ### This is a full-stack web application using ASP.NET Core (backend) and React + Redux (frontend).
-### It uses PostgreSQL as the database and is containerized with Docker and deployed on Fly.io, 
-### with seamless switching between development and production via environment-based configurations.
+### It uses PostgreSQL as the database and is containerized with Docker and deployed on Fly.io.
+## The project is based on Udemy course by Neil Cummings [Learn to build an e-commerce store with .Net, React & Redux](https://www.udemy.com/course/learn-to-build-an-e-commerce-store-with-dotnet-react-redux/) 
+## with a few changes and added a mobile responsive views.
 
 ## Key Functionalities:
 •	**User Authentication & Authorization** (JWT-based)
