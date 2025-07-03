@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using API.Data;
 using API.Entities;
@@ -51,11 +52,12 @@ internal class Program
 
         if (builder.Environment.IsDevelopment())
         {
+            Console.WriteLine("Development environment detected. Using local connection string.");
             connString = builder.Configuration.GetConnectionString("DefaultConnection");
         }
-
         else
         {
+            Console.WriteLine("Production environment detected. Using connection string from environment variable.");
             // Use connection string provided at runtime by FlyIO.
             var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
@@ -116,7 +118,6 @@ internal class Program
 
         if (app.Environment.IsDevelopment())
         {
-            app.MapScalarApiReference(); // scalar/v1
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -157,6 +158,7 @@ internal class Program
             logger.LogError(ex, "A problem occured during migration");
         }
 
+        Console.WriteLine($"Current environment: {app.Environment.EnvironmentName}");
         app.Run();
     }
 }
